@@ -3,6 +3,7 @@ package Member;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class MemberDAO {
 	String jdbcUrl; 
@@ -43,11 +44,13 @@ public class MemberDAO {
 			pstmt.setString(6, phoneNum);
 			pstmt.setInt(7, point);
 		} catch (Exception e) {
-			
+			System.out.println("회원가입에 실패하였습니다. 중복된 아이디가 존재합니다.");
+			//pstmt.close();
+			//conn.close();
 			return false;
 		}
 		
-		
+		System.out.println("회원가입에 성공하였습니다.");
 		return true;
 	}
 	
