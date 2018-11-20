@@ -19,12 +19,56 @@ public class Movie {
 	
 	public static void main(String args[]) {
 		Scanner sc = new Scanner(System.in);
-		String menu;
-		mainMenuPrint(); // 메인메뉴
-		menu = sc.next(); // 입력받기
 		
-		MainMenu a = MainMenu.got(menu);
+		while(true) {
+			String input_menu = "";
+			mainMenuPrint(); // 메인메뉴
+			input_menu = sc.next(); // 입력받기
+			if(input_menu.equals("quit")) { // 종료
+				return;
+			}
+			
+			MainMenu menu = MainMenu.got(input_menu); // enum에서 가져옴.
+			mainMenu(menu); // switch를 통해 가져온 MainMenu를 각 메뉴에 맞게 분류함.
+		}
+	}
+	
+	public static void mainMenu(MainMenu menu) {
+		switch(menu) {
+		case 회원정보관리:
+			System.out.println(menu);
+			break;
+		case 영화정보검색:
+			System.out.println(menu);
+			break;
+		case 영화예약:
+			System.out.println(menu);
+			break;
+		case 영화결제:
+			System.out.println(menu);
+			break;
+		case 영화포인트:
+			System.out.println(menu);
+			break;
+		case 영화관정보관리:
+			System.out.println(menu);
+			break;
+		case 영화정보관리:
+			System.out.println(menu);
+			break;
+		case 상영영화정보관리:
+			System.out.println(menu);
+			break;
+		default:
+			printMessage("해당하는 메뉴가 없습니다. 다시 입력해주세요.");
+			printMessage("");
+			printMessage("");
+			printMessage("");
+			printMessage("");
+			printMessage("");
+			break;
 		
+		}
 	}
 }
 
