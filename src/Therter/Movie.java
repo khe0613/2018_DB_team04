@@ -6,6 +6,7 @@ public class Movie {
 	
 	public static void printMessage(String str) {
 		System.out.println(str);
+		
 	}
 	
 	private static void mainMenuPrint() {
@@ -24,6 +25,7 @@ public class Movie {
 		menu = sc.next(); // 입력받기
 		
 		MainMenu a = MainMenu.got(menu);
+		
 		
 	}
 }
