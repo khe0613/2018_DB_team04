@@ -3,7 +3,6 @@ package Member;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 public class MemberDAO {
 	String jdbcUrl; 
@@ -31,16 +30,23 @@ public class MemberDAO {
 	
 	
 	// 회원 가입
-	public boolean registerMember(String id, String pw, String name, String birth, String address, String phoneNum, int point) throws SQLException{
+	public boolean registerMember(String id, String pw, String name, String birth, String address, String phoneNum, int point){
 		String sql = "INSERT INTO member (id, pw, name, birth, address, phoneNum, point) VALUES (?, ?, ?, ?, ?, ?, ?)";
-		pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, id);
-		pstmt.setString(2, pw);
-		pstmt.setString(3, name);
-		pstmt.setString(4, birth);
-		pstmt.setString(5, address);
-		pstmt.setString(6, phoneNum);
-		pstmt.setString(7, );
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, pw);
+			pstmt.setString(3, name);
+			pstmt.setString(4, birth);
+			pstmt.setString(5, address);
+			pstmt.setString(6, phoneNum);
+			pstmt.setInt(7, point);
+		} catch (Exception e) {
+			
+			return false;
+		}
+		
 		
 		return true;
 	}
