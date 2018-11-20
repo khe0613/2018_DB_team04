@@ -6,6 +6,7 @@ public class Movie {
 	
 	public static void printMessage(String str) {
 		System.out.println(str);
+		
 	}
 	
 	private static void mainMenuPrint() {
@@ -67,7 +68,6 @@ public class Movie {
 			printMessage("");
 			printMessage("");
 			break;
-		
 		}
 	}
 }
