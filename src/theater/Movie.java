@@ -18,6 +18,36 @@ public class Movie {
 		System.out.println(str);
 	}
 	
+	public enum ClientMenu {
+		회원정보관리, 영화정보검색, 영화예약, 영화결제, 영화포인트,
+		영화관정보관리, 다시입력하세요;
+		
+		static ClientMenu got(String ch) {
+			switch(ch) {
+			case "1":		return 회원정보관리;
+			case "2":		return 영화정보검색;
+			case "3":		return 영화예약;
+			case "4":		return 영화결제;
+			case "5":		return 영화포인트;
+			case "6":		return 영화관정보관리;
+			default: 		return 다시입력하세요;
+				}
+			}
+	}
+	
+	public enum AdminMenu {
+		상영영화정보관리, VIP고객관리, 영화티켓발행, 다시입력하세요;
+		
+		static AdminMenu got(String ch) {
+			switch(ch) {
+			case "1":		return 상영영화정보관리;
+			case "2":		return VIP고객관리;
+			case "3":		return 영화티켓발행;
+			default:		return 다시입력하세요;
+				}
+			}
+	}
+	
 	private static void loginMenuPrint() {
 		input_loginmenu = "";
 		printMessage("!! 로그인이 되어있지 않습니다.");
@@ -41,9 +71,6 @@ public class Movie {
 		if(isAdmin) {
 			printMessage("1: 상영영화정보관리    2: VIP 고객관리    3: 영화티켓 발행  ");
 		}
-	
-	
-		
 	}
 	
 	public static void main(String args[]) {
@@ -94,12 +121,6 @@ public class Movie {
 			printMessage(menu);
 			break;
 		case 영화관정보관리:
-			printMessage(menu);
-			break;
-		case 영화정보관리:
-			printMessage(menu);
-			break;
-		case 상영영화정보관리:
 			printMessage(menu);
 			break;
 		default:
