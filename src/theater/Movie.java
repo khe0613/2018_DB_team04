@@ -10,14 +10,17 @@ public class Movie {
 		System.out.println(str);
 		
 	}
+	public static void printMessage(MainMenu str) {
+		System.out.println(str);
+	}
 	
 	private static void loginMenuPrint() {
 		input_loginmenu = "";
 		printMessage("!! 로그인이 되어있지 않습니다.");
 		printMessage("-> 원하시는 메뉴를 선택하세요.");
-		printMessage("1: 로그인    2: 회원가입    3: 로그아웃");
+		printMessage("1: 로그인    2: 회원가입 ");
 		input_loginmenu = sc.next();
-		System.out.println(input_loginmenu);
+		loginMenu(input_loginmenu);
 	}
 	private static void mainMenuPrint() {
 		printMessage("------------- Database TermProject 04조 -------------");
@@ -47,31 +50,39 @@ public class Movie {
 		}
 	}
 	
+	public static void loginMenu(String menu) {
+		if(menu.equals("1")) {
+			printMessage("로그인 기능");
+		}
+		if(menu.equals("2")) {
+			printMessage("회원가입 기능");
+		}
+	}
 	public static void mainMenu(MainMenu menu) {
 		switch(menu) {
 		case 회원정보관리:
-			System.out.println(menu);
+			printMessage(menu);
 			break;
 		case 영화정보검색:
-			System.out.println(menu);
+			printMessage(menu);
 			break;
 		case 영화예약:
-			System.out.println(menu);
+			printMessage(menu);
 			break;
 		case 영화결제:
-			System.out.println(menu);
+			printMessage(menu);
 			break;
 		case 영화포인트:
-			System.out.println(menu);
+			printMessage(menu);
 			break;
 		case 영화관정보관리:
-			System.out.println(menu);
+			printMessage(menu);
 			break;
 		case 영화정보관리:
-			System.out.println(menu);
+			printMessage(menu);
 			break;
 		case 상영영화정보관리:
-			System.out.println(menu);
+			printMessage(menu);
 			break;
 		default:
 			printMessage("!! 해당하는 메뉴가 없습니다. 다시 입력해주세요.");
