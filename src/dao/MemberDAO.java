@@ -20,22 +20,22 @@ public class MemberDAO {
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
 		
 	}
 	
 	
 	// 회원 가입
-	public boolean registerMember(String id, String pw, String name, String birth, String address, String phoneNum, int point){
+	public boolean registerMember(String id, String pw, String name, String birth, String address, String phoneNum, int point) throws SQLException{
 		String sql = "INSERT INTO member (id, pw, name, birth, address, phoneNum, point) VALUES (?, ?, ?, ?, ?, ?, ?)";
+		boolean not_error_flag = false;												//	회원가입 중 에러발생 여부
 		
 		try {
+			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
 			pstmt = conn.prepareStatement(sql);
+			
 			pstmt.setString(1, id);
 			pstmt.setString(2, pw);
 			pstmt.setString(3, name);
@@ -43,22 +43,94 @@ public class MemberDAO {
 			pstmt.setString(5, address);
 			pstmt.setString(6, phoneNum);
 			pstmt.setInt(7, point);
-		} catch (Exception e) {
-			System.out.println("회원가입에 실패하였습니다. 중복된 아이디가 존재합니다.");
-			//pstmt.close();
-			//conn.close();
-			return false;
+			pstmt.executeUpdate();
+			
+			not_error_flag = true;
+			
+		} catch(SQLException e) {
+			not_error_flag = false;
+		}
+	
+		if(pstmt != null) {	pstmt.close(); }
+		if(conn != null) { conn.close(); }
+		
+		if(not_error_flag) {
+			System.out.println("회원가입에 성공하였습니다.");
+		}else {
+			System.out.println("회원가입에 실패하였습니다");		
 		}
 		
-		System.out.println("회원가입에 성공하였습니다.");
-		return true;
+		return not_error_flag;
 	}
 	
 	
 	
+	
 	// 회원 탈퇴
-	public boolean deleteMember() {
+	public boolean deleteMember(String id) throws SQLException {
+		String sql = "DELETE FROM member WHERE id = ?";
+		boolean not_error_flag = false;							//	회원탈퇴 중 에러발생 여부
 		
-		return false;
+		try {
+			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, id);
+			pstmt.executeUpdate();
+			
+			not_error_flag = true;
+		} catch (SQLException e) {
+			not_error_flag = false;
+		}
+		
+		if(pstmt != null) {	pstmt.close(); }
+		if(conn != null) { conn.close(); }
+		
+		if(not_error_flag) {
+			System.out.println("회원탈퇴에 성공하였습니다.");
+		}else {
+			System.out.println("회원탈퇴에 실패하였습니다.");		
+		}
+		
+		return not_error_flag;
+	}
+	
+	
+	//회원 정보 수정
+	public boolean modifyMember(String id, String pw, String name, String birth, String address, String phoneNum, int point) throws SQLException {
+		String sql = "UPDATE member SET id = ? , pw = ?, name = ?, birth = ?, address = ?, phoneNum = ?, point = ?) WHERE id = ?";
+		boolean not_error_flag = false;											//	회원정보 수정 중 에러발생 여부
+		
+		try {
+			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, id);
+			pstmt.setString(2, pw);
+			pstmt.setString(3, name);
+			pstmt.setString(4, birth);
+			pstmt.setString(5, address);
+			pstmt.setString(6, phoneNum);
+			pstmt.setInt(7, point);
+			pstmt.setString(8, id);
+			pstmt.executeUpdate();
+			
+			not_error_flag = true;
+			
+		} catch(SQLException e) {
+			not_error_flag = false;
+		}
+	
+		if(pstmt != null) {	pstmt.close(); }
+		if(conn != null) { conn.close(); }
+		
+		if(not_error_flag) {
+			System.out.println("회원 정보 수정에 성공하였습니다.");
+		}else {
+			System.out.println("회원 정보 수정에 실패하였습니다");		
+		}
+		
+		return not_error_flag;
+		
 	}
 }
