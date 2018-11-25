@@ -1,4 +1,4 @@
-package Therter;
+package theater;
 
 import java.util.Scanner;
 

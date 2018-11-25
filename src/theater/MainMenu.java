@@ -1,4 +1,4 @@
-package Therter;
+package theater;
 
 public enum MainMenu {
 	회원정보관리, 영화정보검색, 영화예약, 영화결제, 영화포인트,

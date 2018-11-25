@@ -1,4 +1,4 @@
-package Member;
+package theater;
 
 public class Member {
 	private String id;
