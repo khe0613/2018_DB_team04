@@ -74,7 +74,12 @@ public class Member {
 		this.point = point;
 	}
 	
-	
+	public boolean AdminCheck(String id) {
+		if(id.equals("root")) 
+			return true;
+		else
+			return false;
+	}
 
 	
 }

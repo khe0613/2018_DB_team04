@@ -3,14 +3,18 @@ package theater;
 import java.util.Scanner;
 
 public class Movie {
-	static boolean login = false;
+	static boolean isLogin = false;
+	static boolean isAdmin = false;
 	private static Scanner sc = new Scanner(System.in);
 	static String input_loginmenu;
 	public static void printMessage(String str) {
 		System.out.println(str);
 		
 	}
-	public static void printMessage(MainMenu str) {
+	public static void printMessage(ClientMenu str) {
+		System.out.println(str);
+	}
+	public static void printMessage(AdminMenu str) {
 		System.out.println(str);
 	}
 	
@@ -25,12 +29,20 @@ public class Movie {
 	private static void mainMenuPrint() {
 		printMessage("------------- Database TermProject 04조 -------------");
 		printMessage("---------------- 영  화  관  리  시  스  템  -------------------");
-		if(!login) {
+		if(!isLogin) {
 			loginMenuPrint();	
 		}
+		//isAdmin = AdminCheck(id); // id 구별해서 관리자면 true, 아니면 false 리턴해서 넣기.
 		printMessage("-> 원하시는 메뉴를 선택하세요.");
-		printMessage("1: 회원정보관리    2: 영화정보검색    3: 영화예약    4: 영화결제");
-		printMessage("5: 영화포인트    6: 영화관정보관리    7: 영화정보관리    8: 상영영화정보관리");
+		if(!isAdmin) {
+			printMessage("1: 회원정보관리    2: 영화정보검색    3: 영화예약    4: 영화결제");
+			printMessage("5: 영화포인트    6: 영화관정보관리");
+		}
+		if(isAdmin) {
+			printMessage("1: 상영영화정보관리    2: VIP 고객관리    3: 영화티켓 발행  ");
+		}
+	
+	
 		
 	}
 	
@@ -44,9 +56,14 @@ public class Movie {
 			if(input_menu.equals("quit")) { // 종료
 				return;
 			}
-			
-			MainMenu menu = MainMenu.got(input_menu); // enum에서 가져옴.
-			mainMenu(menu); // switch를 통해 가져온 MainMenu를 각 메뉴에 맞게 분류함.
+			if(!isAdmin) {
+				ClientMenu menu = ClientMenu.got(input_menu); // enum에서 가져옴.
+				clientMenu(menu); // switch를 통해 가져온 MainMenu를 각 메뉴에 맞게 분류함.	
+			}
+			if(isAdmin) {
+				AdminMenu menu = AdminMenu.got(input_menu);
+				adminMenu(menu);
+ 			}
 		}
 	}
 	
@@ -58,7 +75,8 @@ public class Movie {
 			printMessage("회원가입 기능");
 		}
 	}
-	public static void mainMenu(MainMenu menu) {
+	
+	public static void clientMenu(ClientMenu menu) {
 		switch(menu) {
 		case 회원정보관리:
 			printMessage(menu);
@@ -85,13 +103,35 @@ public class Movie {
 			printMessage(menu);
 			break;
 		default:
-			printMessage("!! 해당하는 메뉴가 없습니다. 다시 입력해주세요.");
+			printMessage(menu);
 			printMessage("");
 			printMessage("");
 			printMessage("");
 			printMessage("");
 			printMessage("");
 			break;
+		}
+	}
+	
+	public static void adminMenu(AdminMenu menu) {
+		switch(menu) {
+		case 상영영화정보관리:
+			printMessage(menu);
+			break;
+		case VIP고객관리:
+			printMessage(menu);
+			break;
+		case 영화티켓발행:
+			printMessage(menu);
+			break;
+		default:
+			printMessage(menu);
+			printMessage("");
+			printMessage("");
+			printMessage("");
+			printMessage("");
+			printMessage("");
+			break; 
 		}
 	}
 }
