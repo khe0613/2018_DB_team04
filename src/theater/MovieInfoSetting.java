@@ -1,5 +1,6 @@
 package theater;
 
+import java.util.ArrayList;
 // 영화정보관리
 import java.util.Scanner;
 
@@ -21,9 +22,9 @@ public class MovieInfoSetting {
 	
 	
 	public void start() {
-		Print.printMessage("------------ 영 화 정 보 관 리 ------------");
+		Print.printMessage("--------------- 영 화 정 보 관 리 ---------------");
 		Print.printMessage("-> 원하시는 메뉴를 선택하세요.");
-		Print.printMessage("1: 영화 등록   2: 영화정보수정   3: 영화 삭제");
+		Print.printMessage("1: 영화 등록   2: 영화정보수정   3: 영화 삭제   4: 저장된 영화 목록 보기");
 		inputMenu = sc.next();
 		menu(inputMenu);
 	}
@@ -63,6 +64,9 @@ public class MovieInfoSetting {
 				Print.printMessage("!! 영화정보 삭제 실패");
 			}
 			break;
+		case "4":
+			Print.printMessage("-> 저장된 영화 목록");
+			getMovieInfoList();
 			default:
 				break;
 		}
@@ -117,7 +121,23 @@ public class MovieInfoSetting {
 	}
 
 	/* 저장된 영화 정보 목록 출력 */
-	public void 
+	public void getMovieInfoList() {
+		ArrayList<MovieInfoSetting> arrayList = new ArrayList<MovieInfoSetting>();
+		arrayList = new MovieInfoSettingDAO().getMovieInfoListSQL();
+		Print.printMessage("영화코드	영화명	감독명	영화주요정보	상영시간	개봉일	상영등급	출연자명	장르명");
+		int i = 0;
+		while(i < arrayList.size()) {
+			MovieInfoSetting temp = arrayList.get(i);
+			Print.printMessage(temp.getMovieNO() + "	" + temp.getMovieName() + "	" + temp.getDirectorName()
+			+ "	" + temp.getSummary() + "	" + temp.getShowTime() + "	" + temp.getReleaseDate()
+			+ "	" + temp.getRating() + "	" + temp.getPerforMername() + "	" + temp.getGenre());
+			
+			i++;
+		}
+		Print.printMessage("총 " + i+1 + "개의 영화 정보가 저장되어있습니다.");
+		Print.printMessage("-----------------------------------------------------");
+	}
+	
 	public String getMovieName() {
 		return movieName;
 	}

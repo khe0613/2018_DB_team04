@@ -3,8 +3,11 @@ package dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
+import theater.MovieInfoSetting;
 import theater.Print;
 
 public class MovieInfoSettingDAO {
@@ -130,6 +133,57 @@ public class MovieInfoSettingDAO {
 		      if(conn != null) try{conn.close();}catch(SQLException sqle){}
 		}
 		return false;
+	}
+
+	public ArrayList<MovieInfoSetting> getMovieInfoListSQL() {
+		
+		try {
+			ArrayList<MovieInfoSetting> arrayList = new ArrayList<>();
+			String SQL = "SELECT * FROM movie";
+			pstmt = conn.prepareStatement(SQL);
+			ResultSet rs = pstmt.executeQuery();
+			
+			// 조회결과 정보 없음
+			if(!rs.next()) {
+				return null;
+			}
+			
+			rs.beforeFirst(); // 첫 행으로 이동  -> 이게 맞나 ?
+			
+			// 목록 꺼내오기
+			while(rs.next()) {
+				int rsMovieNO = rs.getInt("movieNO");
+				String rsMovieName = rs.getString("movieName");
+				String rsDirectorName = rs.getString("directorName");
+				String rsSummary = rs.getString("summary");
+				int rsShowtime = rs.getInt("showTime");
+				String rsReleaseDate = rs.getString("releaseDate");
+				String rsRating = rs.getString("rating");
+				String rsPerforMername = rs.getString("perforMername");
+				String rsGenre = rs.getString("genre");
+				
+				MovieInfoSetting movieInfoSetting = new MovieInfoSetting();
+				movieInfoSetting.setMovieNO(rsMovieNO);
+				movieInfoSetting.setMovieName(rsMovieName);
+				movieInfoSetting.setDirectorName(rsDirectorName);
+				movieInfoSetting.setSummary(rsSummary);
+				movieInfoSetting.setShowTime(rsShowtime);
+				movieInfoSetting.setReleaseDate(rsReleaseDate);
+				movieInfoSetting.setRating(rsRating);
+				movieInfoSetting.setPerforMername(rsPerforMername);
+				movieInfoSetting.setGenre(rsGenre);
+				
+				arrayList.add(movieInfoSetting);
+			}
+			return arrayList;
+		}catch(Exception e){
+	        e.printStackTrace();
+	    }finally{
+	    	 if(pstmt != null) try{pstmt.close();}catch(SQLException sqle){}
+		      if(conn != null) try{conn.close();}catch(SQLException sqle){}
+	    }
+		
+		return null;
 	}
 	
 }

@@ -134,6 +134,7 @@ public class Movie {
 			break;
 		case 상영영화정보관리:
 			Print.printMessage(menu);
+			new ScreeningMovieInfoSetting().start();
 			break;
 		case VIP고객관리:
 			Print.printMessage(menu);
