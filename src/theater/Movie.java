@@ -131,6 +131,7 @@ public class Movie {
 			break;
 		case 영화관정보관리:
 			Print.printMessage(menu);
+			new TheaterInfo().start();
 			break;
 		case 상영영화정보관리:
 			Print.printMessage(menu);

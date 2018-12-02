@@ -135,6 +135,7 @@ public class MovieInfoSettingDAO {
 		return false;
 	}
 
+	/* 영화 정보 목록 출력 */
 	public ArrayList<MovieInfoSetting> getMovieInfoListSQL() {
 		
 		try {

@@ -5,7 +5,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
+import theater.MovieInfoSetting;
 import theater.TheaterInfo;
 
 public class TheaterInfoDAO {
@@ -161,5 +163,46 @@ public class TheaterInfoDAO {
 		return branch_no;
 	}
 	
-	
+	/* 영화관 정보 목록 출력 */
+	public ArrayList<TheaterInfo> getMovieInfoListSQL() {
+		
+		try {
+			ArrayList<TheaterInfo> arrayList = new ArrayList<>();
+			String SQL = "SELECT * FROM theater";
+			pstmt = conn.prepareStatement(SQL);
+			ResultSet rs = pstmt.executeQuery();
+			
+			// 조회결과 정보 없음
+			if(!rs.next()) {
+				return null;
+			}
+			
+			rs.beforeFirst(); // 첫 행으로 이동  -> 이게 맞나 ?
+			
+			// 목록 꺼내오기
+			while(rs.next()) {
+				int rsBranchNo = rs.getInt("branchNo");
+				int rsScreenNum = rs.getInt("screenNum");
+				String rsAddress = rs.getString("address");
+				String rsTel = rs.getString("tel");
+				String rsBranchName = rs.getString("branchName");
+				
+				TheaterInfo theaterInfo = new TheaterInfo();
+				theaterInfo.setBranchNo(rsBranchNo);
+				theaterInfo.setScreenNum(rsScreenNum);
+				theaterInfo.setAddress(rsAddress);
+				theaterInfo.setTel(rsTel);
+				theaterInfo.setBranchName(rsBranchName);
+				
+				arrayList.add(theaterInfo);
+			}
+			return arrayList;
+		}catch(Exception e){
+	        e.printStackTrace();
+	    }finally{
+	    	 if(pstmt != null) try{pstmt.close();}catch(SQLException sqle){}
+		      if(conn != null) try{conn.close();}catch(SQLException sqle){}
+	    }
+		return null;
+	}
 }

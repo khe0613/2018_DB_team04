@@ -12,6 +12,8 @@ public class TheaterInfo {
 	private String tel;
 	private String branchName;
 	
+	private Scanner sc = new Scanner(System.in);
+	String inputMenu = "";
 	
 	public TheaterInfo() {
 		
@@ -65,6 +67,50 @@ public class TheaterInfo {
 		this.branchName = branchName;
 	}
 	
+	public void start() {
+		Print.printMessage("------------- 영 화 관 정 보 관 리 -------------");
+		Print.printMessage("-> 원하시는 메뉴를 선택하세요.");
+		Print.printMessage("1: 영화관 등록   2: 영화관 정보 수정   3: 영화관 삭제");
+		inputMenu = sc.next();
+		menu(inputMenu);
+	}
+	
+	private void menu(String menu) {
+		switch(menu) {
+		case "1":
+			Print.printMessage("-> 영화관 등록");
+			// 성공
+			if(addTheater()) {
+				Print.printMessage("!! 영화관 등록 성공");
+			}
+			else {
+				Print.printMessage("!! 영화관 등록 실패");
+			}
+			break;
+		case "2":
+			Print.printMessage("-> 영화관 정보 수정");
+			
+			if(modifyTheaterInfo()) {
+				Print.printMessage("!! 영화관 수정 성공");
+			}
+			else {
+				Print.printMessage("!! 영화관 수정 실패");
+			}
+			break;
+		case "3":
+			Print.printMessage("-> 영화관 삭제");
+			
+			if(removeTheater()) {
+				Print.printMessage("!! 영화관 삭제 성공");
+			}
+			else {
+				Print.printMessage("!! 영화관 삭제 실패");
+			}
+			break;
+		default:
+			break;
+		}
+	}
 	
 	// 영화관 등록
 	public boolean addTheater() {
@@ -118,13 +164,11 @@ public class TheaterInfo {
 			return false;
 		}
 	
-
 	}
 	
 	// 영화관 삭제
 	public boolean removeTheater() {
 		return new TheaterInfoDAO().removeTheater(this.branchNo);		// 성공할 경우 true, 실패할 경우 false가 리턴됨
 	}
-	
 	
 }
