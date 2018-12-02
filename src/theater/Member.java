@@ -1,5 +1,9 @@
 package theater;
 
+import java.text.BreakIterator;
+
+import dao.MemberDAO;
+
 public class Member {
 	private String id;
 	private String pw;
@@ -8,6 +12,10 @@ public class Member {
 	private String address;
 	private String phoneNum;
 	private int point;
+	
+	public Member() {
+		
+	}
 	
 	public Member(String id, String pw, String name, String birth, String address, String phoneNum, int point) {
 		this.id = id;
@@ -79,6 +87,56 @@ public class Member {
 			return true;
 		else
 			return false;
+	}
+	
+	// 회원 가입
+	public boolean register(String id, String pw, String name, String birth, String address, String phoneNum, int point) {
+		if(new MemberDAO().registerMember(id, pw, name, birth, address, phoneNum, point)) {	// 성공
+			this.id = id;
+			this.pw = pw;
+			this.name = name;
+			this.birth = birth;
+			this.address = address;
+			this.phoneNum = phoneNum;
+			this.point = point;
+			
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	// 회원 탈퇴
+	public boolean delete(String id) {
+		if(new MemberDAO().deleteMember(id)) {
+			this.id = null;
+			this.pw = null;
+			this.name = null;
+			this.birth = null;
+			this.address = null;
+			this.phoneNum = null;
+			this.point = 0;
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	// 회원 정보 수정
+	public boolean modify(String id, String pw, String name, String birth, String address, String phoneNum, int point) {
+		if(new MemberDAO().modifyMember(id, pw, name, birth, address, phoneNum, point)) {	// 성공
+			this.id = id;
+			this.pw = pw;
+			this.name = name;
+			this.birth = birth;
+			this.address = address;
+			this.phoneNum = phoneNum;
+			this.point = point;
+			
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 	
