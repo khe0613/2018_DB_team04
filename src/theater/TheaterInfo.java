@@ -12,9 +12,6 @@ public class TheaterInfo {
 	private String tel;
 	private String branchName;
 	
-	private Scanner sc = new Scanner(System.in);
-	String inputMenu = "";
-	
 	public TheaterInfo() {
 		
 	}
@@ -68,10 +65,12 @@ public class TheaterInfo {
 	}
 	
 	public void start() {
+		Scanner sce = new Scanner(System.in);
+		String inputMenu = "";
 		Print.printMessage("------------- 영 화 관 정 보 관 리 -------------");
 		Print.printMessage("-> 원하시는 메뉴를 선택하세요.");
 		Print.printMessage("1: 영화관 등록   2: 영화관 정보 수정   3: 영화관 삭제");
-		inputMenu = sc.next();
+		inputMenu = sce.next();
 		menu(inputMenu);
 	}
 	
