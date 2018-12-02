@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import theater.Member;
+
 public class MemberDAO {
 	String jdbcUrl; 
 	String dbId;
@@ -29,20 +31,20 @@ public class MemberDAO {
 	
 	
 	// 회원 가입
-	public boolean registerMember(String id, String pw, String name, String birth, String address, String phoneNum, int point) {
+	public boolean registerMember(Member member) {
 		String sql = "INSERT INTO member (id, pw, name, birth, address, phoneNum, point) VALUES (?, ?, ?, ?, ?, ?, ?)";
 		boolean not_error_flag = false;												//	회원가입 중 에러발생 여부
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, id);
-			pstmt.setString(2, pw);
-			pstmt.setString(3, name);
-			pstmt.setString(4, birth);
-			pstmt.setString(5, address);
-			pstmt.setString(6, phoneNum);
-			pstmt.setInt(7, point);
+			pstmt.setString(1, member.getId());
+			pstmt.setString(2, member.getPw());
+			pstmt.setString(3, member.getName());
+			pstmt.setString(4, member.getBirth());
+			pstmt.setString(5, member.getAddress());
+			pstmt.setString(6, member.getPhoneNum());
+			pstmt.setInt(7, member.getPoint());
 			pstmt.executeUpdate();
 			
 			not_error_flag = true;
@@ -55,9 +57,9 @@ public class MemberDAO {
 		if(conn != null) { try {conn.close();} catch (SQLException e) {e .printStackTrace(); } }
 		
 		if(not_error_flag) {
-			System.out.println("회원가입에 성공하였습니다.");
+			System.out.println("회원가입에 성공하였습니다.\n");
 		}else {
-			System.out.println("회원가입에 실패하였습니다");		
+			System.out.println("회원가입에 실패하였습니다.\n");		
 		}
 		
 		return not_error_flag;
@@ -86,9 +88,9 @@ public class MemberDAO {
 		if(conn != null) { try {conn.close();} catch (SQLException e) {e .printStackTrace(); } }
 		
 		if(not_error_flag) {
-			System.out.println("회원탈퇴에 성공하였습니다.");
+			System.out.println("회원탈퇴에 성공하였습니다.\n");
 		}else {
-			System.out.println("회원탈퇴에 실패하였습니다.");		
+			System.out.println("회원탈퇴에 실패하였습니다.\n");		
 		}
 		
 		return not_error_flag;
@@ -96,8 +98,8 @@ public class MemberDAO {
 	
 	
 	//회원 정보 수정
-	public boolean modifyMember(String id, String pw, String name, String birth, String address, String phoneNum, int point) {
-		String sql = "UPDATE member SET id = ? , pw = ?, name = ?, birth = ?, address = ?, phoneNum = ?, point = ?) WHERE id = ?";
+	public boolean modifyMember(String id, String pw, String name, String birth, String address, String phoneNum) {
+		String sql = "UPDATE member SET id = ? , pw = ?, name = ?, birth = ?, address = ?, phoneNum = ? WHERE id = ?";
 		boolean not_error_flag = false;											//	회원정보 수정 중 에러발생 여부
 		
 		try {
@@ -109,8 +111,7 @@ public class MemberDAO {
 			pstmt.setString(4, birth);
 			pstmt.setString(5, address);
 			pstmt.setString(6, phoneNum);
-			pstmt.setInt(7, point);
-			pstmt.setString(8, id);
+			pstmt.setString(7, id);
 			pstmt.executeUpdate();
 			
 			not_error_flag = true;
@@ -123,9 +124,9 @@ public class MemberDAO {
 		if(conn != null) { try {conn.close();} catch (SQLException e) {e .printStackTrace(); } }
 		
 		if(not_error_flag) {
-			System.out.println("회원 정보 수정에 성공하였습니다.");
+			System.out.println("회원 정보 수정에 성공하였습니다.\n");
 		}else {
-			System.out.println("회원 정보 수정에 실패하였습니다");		
+			System.out.println("회원 정보 수정에 실패하였습니다.\n");		
 		}
 		
 		return not_error_flag;

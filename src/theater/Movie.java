@@ -89,7 +89,13 @@ public class Movie {
 			Print.printMessage("로그인 기능");
 		}
 		if(menu.equals("2")) {
-			Print.printMessage("회원가입 기능");
+			Member member = new Member();
+			
+			if(!member.register()) {	// 회원 가입 실패
+				member = null;
+			}
+			
+			//Print.printMessage("회원가입 기능");
 		}
 	}
 	

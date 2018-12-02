@@ -1,6 +1,8 @@
 package theater;
 
-import java.text.BreakIterator;
+
+
+import java.util.Scanner;
 
 import dao.MemberDAO;
 
@@ -90,49 +92,67 @@ public class Member {
 	}
 	
 	// 회원 가입
-	public boolean register(String id, String pw, String name, String birth, String address, String phoneNum, int point) {
-		if(new MemberDAO().registerMember(id, pw, name, birth, address, phoneNum, point)) {	// 성공
-			this.id = id;
-			this.pw = pw;
-			this.name = name;
-			this.birth = birth;
-			this.address = address;
-			this.phoneNum = phoneNum;
-			this.point = point;
-			
-			return true;
+	public boolean register() {
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.println("---------------- 회원 가입 ----------------");
+		System.out.print("아이디 : ");		this.id = sc.nextLine();
+		System.out.print("비밀번호 : ");	this.pw = sc.nextLine();
+		System.out.print("성명 : ");		this.name = sc.nextLine();
+		System.out.print("생년월일 : ");	this.birth = sc.nextLine();
+		System.out.print("주소 : ");		this.address = sc.nextLine();
+		System.out.print("전화번호 : ");	this.phoneNum = sc.nextLine();
+		this.point = 0;
+		
+		sc.close();
+		
+		if(new MemberDAO().registerMember(this)) {	
+			return true;									// 성공
 		}else {
-			return false;
+			return false;									// 실패
 		}
+		
 	}
 	
 	// 회원 탈퇴
-	public boolean delete(String id) {
-		if(new MemberDAO().deleteMember(id)) {
-			this.id = null;
-			this.pw = null;
-			this.name = null;
-			this.birth = null;
-			this.address = null;
-			this.phoneNum = null;
-			this.point = 0;
-			return true;
-		}else {
-			return false;
-		}
+	public boolean delete() {
+		return new MemberDAO().deleteMember(this.id);	// 성공할 경우 true, 실패할 경우 false가 리턴됨
 	}
 	
 	// 회원 정보 수정
-	public boolean modify(String id, String pw, String name, String birth, String address, String phoneNum, int point) {
-		if(new MemberDAO().modifyMember(id, pw, name, birth, address, phoneNum, point)) {	// 성공
-			this.id = id;
-			this.pw = pw;
-			this.name = name;
-			this.birth = birth;
-			this.address = address;
-			this.phoneNum = phoneNum;
-			this.point = point;
-			
+	public boolean modify() {
+		Scanner sc = new Scanner(System.in);
+		
+		
+		System.out.println("---------------- 회원 정보 수정 ----------------");
+		System.out.print("아이디 : ");
+		String new_id = sc.nextLine();
+		
+		System.out.print("비밀번호 : ");
+		String new_pw = sc.nextLine();
+		
+		System.out.print("성명 : ");
+		String new_name = sc.nextLine();
+		
+		System.out.print("생년월일 : ");
+		String new_birth = sc.nextLine();
+		
+		System.out.print("주소 : ");
+		String  new_address = sc.nextLine();
+		
+		System.out.print("전화번호 : ");
+		String new_phoneNum = sc.nextLine();
+		
+		sc.close();
+		
+		if(new MemberDAO().modifyMember(new_id, new_pw, new_name, new_birth, new_address, new_phoneNum)) {	// 성공
+			this.id = new_id;
+			this.pw = new_pw;
+			this.name = new_name;
+			this.birth = new_birth;
+			this.address = new_address;
+			this.phoneNum = new_phoneNum;
+	
 			return true;
 		}else {
 			return false;
