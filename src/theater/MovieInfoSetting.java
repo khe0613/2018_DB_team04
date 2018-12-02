@@ -116,6 +116,8 @@ public class MovieInfoSetting {
 		setMovieNO(sc.nextInt());
 	}
 
+	/* 저장된 영화 정보 목록 출력 */
+	public void 
 	public String getMovieName() {
 		return movieName;
 	}

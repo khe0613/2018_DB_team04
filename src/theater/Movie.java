@@ -9,8 +9,7 @@ public class Movie {
 	static String input_loginmenu;
 	
 	public enum ClientMenu {
-		회원정보관리, 영화정보검색, 영화예약, 영화결제, 영화포인트,
-		영화관정보관리, 다시입력하세요;
+		회원정보관리, 영화정보검색, 영화예약, 영화결제, 다시입력하세요;
 		
 		static ClientMenu got(String ch) {
 			switch(ch) {
@@ -18,21 +17,21 @@ public class Movie {
 			case "2":		return 영화정보검색;
 			case "3":		return 영화예약;
 			case "4":		return 영화결제;
-			case "5":		return 영화포인트;
-			case "6":		return 영화관정보관리;
 			default: 		return 다시입력하세요;
 				}
 			}
 	}
 	
 	public enum AdminMenu {
-		상영영화정보관리, VIP고객관리, 영화티켓발행, 다시입력하세요;
+		영화정보관리, 영화관정보관리, 상영영화정보관리, VIP고객관리, 영화티켓발행, 다시입력하세요;
 		
 		static AdminMenu got(String ch) {
 			switch(ch) {
-			case "1":		return 상영영화정보관리;
-			case "2":		return VIP고객관리;
-			case "3":		return 영화티켓발행;
+			case "1":		return 영화정보관리;
+			case "2":		return 영화관정보관리;
+			case "3":		return 상영영화정보관리;
+			case "4":		return VIP고객관리;
+			case "5":		return 영화티켓발행;
 			default:		return 다시입력하세요;
 				}
 			}
@@ -56,10 +55,10 @@ public class Movie {
 		Print.printMessage("-> 원하시는 메뉴를 선택하세요.");
 		if(!isAdmin) {
 			Print.printMessage("1: 회원정보관리    2: 영화정보검색    3: 영화예약    4: 영화결제");
-			Print.printMessage("5: 영화포인트    6: 영화관정보관리");
 		}
 		if(isAdmin) {
-			Print.printMessage("1: 상영영화정보관리    2: VIP 고객관리    3: 영화티켓 발행  ");
+			Print.printMessage("1: 영화정보관리    2: 영화관정보관리   3: 상영영화정보관리  ");
+			Print.printMessage("4: VIP 고객관리  5: 영화티켓발행  ");
 		}
 	}
 	
@@ -113,12 +112,6 @@ public class Movie {
 		case 영화결제:
 			Print.printMessage(menu);
 			break;
-		case 영화포인트:
-			Print.printMessage(menu);
-			break;
-		case 영화관정보관리:
-			Print.printMessage(menu);
-			break;
 		default:
 			Print.printMessage(menu);
 			Print.printMessage("");
@@ -132,6 +125,13 @@ public class Movie {
 	
 	public static void adminMenu(AdminMenu menu) {
 		switch(menu) {
+		case 영화정보관리:
+			Print.printMessage(menu);
+			new MovieInfoSetting().start();
+			break;
+		case 영화관정보관리:
+			Print.printMessage(menu);
+			break;
 		case 상영영화정보관리:
 			Print.printMessage(menu);
 			break;
