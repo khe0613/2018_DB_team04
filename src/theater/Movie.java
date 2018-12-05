@@ -9,7 +9,7 @@ public class Movie {
 	static boolean isAdmin = false;
 	private static Scanner sc = new Scanner(System.in);
 	static String input_loginmenu;
-	static Member member = new Member();
+	public static Member member = new Member();
 	
 	public enum ClientMenu {
 		회원정보관리, 영화정보검색, 영화예약, 영화결제, 다시입력하세요;

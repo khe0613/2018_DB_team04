@@ -1,5 +1,6 @@
 package theater;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import dao.TheaterInfoDAO;
@@ -69,7 +70,7 @@ public class TheaterInfo {
 		String inputMenu = "";
 		Print.printMessage("------------- 영 화 관 정 보 관 리 -------------");
 		Print.printMessage("-> 원하시는 메뉴를 선택하세요.");
-		Print.printMessage("1: 영화관 등록   2: 영화관 정보 수정   3: 영화관 삭제");
+		Print.printMessage("1: 영화관 등록   2: 영화관 정보 수정   3: 영화관 삭제   4. 영화관목록출력");
 		inputMenu = sce.next();
 		menu(inputMenu);
 	}
@@ -105,6 +106,9 @@ public class TheaterInfo {
 			else {
 				Print.printMessage("!! 영화관 삭제 실패");
 			}
+			break;
+		case "4":
+			theaterList();
 			break;
 		default:
 			break;
@@ -170,7 +174,26 @@ public class TheaterInfo {
 		return new TheaterInfoDAO().removeTheater(this.branchNo);		// 성공할 경우 true, 실패할 경우 false가 리턴됨
 	}
 	
-	public boolean theaterList() {
+	public void theaterList() {
+		TheaterInfoDAO theaterInfoDAO = new TheaterInfoDAO();
+		ArrayList<TheaterInfo> result = theaterInfoDAO.getMovieInfoListSQL();
 		
+		if(result == null) {
+			Print.printMessage("!! 아무 정보도 등록되지 않았습니다.");
+			Print.printMessage("-----------------------------------------------------");
+			return;
+		}
+		
+		Print.printMessage("지점명코드	상영관수	주소	전화번호	지점명");
+		int i = 0;
+		while(i < result.size()) {
+			TheaterInfo temp = result.get(i);
+			Print.printMessage(temp.getBranchNo() + "	" + temp.getScreenNum() + "	" + temp.getAddress()
+			+ "	" + temp.getTel() + " " + temp.getBranchName());
+			
+			i++;
+		}
+		Print.printMessage("총 " + i + "개의 영화 정보가 저장되어있습니다.");
+		Print.printMessage("-----------------------------------------------------");
 	}
 }
