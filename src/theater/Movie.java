@@ -104,12 +104,12 @@ public class Movie {
 		}
 		if(menu.equals("2")) {
 			Print.printMessage("회원가입 기능");
-			Member member = new Member();
-			
-			if(!member.register()) {	// 회원 가입 실패
-				member = null;
+			Member temp = member.register();
+			if(temp == null) {	// 회원 가입 실패
 				return ;
 			}
+			member.setId(temp.getId());
+			member.setPw(temp.getPw());
 			isLogin = true;
 			//Print.printMessage("회원가입 기능");
 		}

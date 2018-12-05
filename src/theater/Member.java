@@ -125,7 +125,7 @@ public class Member {
 		
 	}
 	// 회원 가입
-	public boolean register() {
+	public Member register() {
 		Scanner sc = new Scanner(System.in);
 		
 		System.out.println("---------------- 회원 가입 ----------------");
@@ -137,10 +137,13 @@ public class Member {
 		System.out.print("전화번호 : ");	this.phoneNum = sc.nextLine();
 		this.point = 0;
 		
-		if(new MemberDAO().registerMember(this)) {	
-			return true;									// 성공
+		Member member = new Member();
+		if(new MemberDAO().registerMember(this)) {
+			member.setId(this.id);
+			member.setPw(this.pw);
+			return member;									// 성공
 		}else {
-			return false;									// 실패
+			return null;									// 실패
 		}
 		
 	}
