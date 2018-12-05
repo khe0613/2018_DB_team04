@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import theater.MovieInfoSetting;
 import theater.TheaterInfo;
 
+// 김창
+// 영화관 DAO
 public class TheaterInfoDAO {
 	String jdbcUrl; 
 	String dbId;
