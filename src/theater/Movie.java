@@ -26,21 +26,35 @@ public class Movie {
 	}
 	
 	public enum AdminMenu {
-		영화정보관리, 영화관정보관리, 상영영화정보관리, VIP고객관리, 영화티켓발행, 다시입력하세요;
+		영화정보관리, 영화관정보관리, 상영영화정보관리, 상영관정보관리, VIP고객관리, 영화티켓발행, 다시입력하세요;
 		
 		static AdminMenu got(String ch) {
 			switch(ch) {
 			case "1":		return 영화정보관리;
 			case "2":		return 영화관정보관리;
 			case "3":		return 상영영화정보관리;
-			case "4":		return VIP고객관리;
-			case "5":		return 영화티켓발행;
+			case "4":		return 상영관정보관리;
+			case "5":		return VIP고객관리;
+			case "6":		return 영화티켓발행;
 			default:		return 다시입력하세요;
 				}
 			}
 	}
 	
-	private static void loginMenuPrint() {
+	public static boolean isLogin() {
+		return isLogin;
+	}
+	public static void setLogin(boolean isLogin) {
+		Movie.isLogin = isLogin;
+	}
+	public static boolean isAdmin() {
+		return isAdmin;
+	}
+	public static void setAdmin(boolean isAdmin) {
+		Movie.isAdmin = isAdmin;
+	}
+	
+	public static void loginMenuPrint() {
 		input_loginmenu = "";
 		Print.printMessage("!! 로그인이 되어있지 않습니다.");
 		Print.printMessage("-> 원하시는 메뉴를 선택하세요.");
@@ -61,7 +75,7 @@ public class Movie {
 		}
 		if(isAdmin) {
 			Print.printMessage("1: 영화정보관리    2: 영화관정보관리   3: 상영영화정보관리  ");
-			Print.printMessage("4: VIP 고객관리  5: 영화티켓발행  ");
+			Print.printMessage("4: 상영관정보관리  5: VIP 고객관리  6: 영화티켓발행  ");
 		}
 	}
 	
@@ -110,7 +124,7 @@ public class Movie {
 			}
 			member.setId(temp.getId());
 			member.setPw(temp.getPw());
-			isLogin = true;
+			setLogin(true);
 			//Print.printMessage("회원가입 기능");
 		}
 	}
@@ -119,7 +133,7 @@ public class Movie {
 		switch(menu) {
 		case 회원정보관리:
 			Print.printMessage(menu);
-			member.MemberModifyStart(isLogin);
+			member.MemberModifyStart();
 			break;
 		case 영화정보검색:
 			Print.printMessage(menu);
@@ -155,6 +169,10 @@ public class Movie {
 		case 상영영화정보관리:
 			Print.printMessage(menu);
 			new ScreeningMovieInfoSetting().start();
+			break;
+		case 상영관정보관리:
+			Print.printMessage(menu);
+			new Screen().start();
 			break;
 		case VIP고객관리:
 			Print.printMessage(menu);

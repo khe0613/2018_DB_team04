@@ -37,6 +37,43 @@ public class Screen {
 		return leftSeatNum;
 	}
 	
+	public void start() {
+		Print.printMessage("---------------- 상 영 관 정 보 관 리 ----------------");
+		Print.printMessage("-> 원하시는 메뉴를 선택하세요.");
+		Print.printMessage("1: 상영관 등록    2: 상영관 삭제   3: 상영관 수정");
+		Scanner sc = new Scanner(System.in);
+		String menu = sc.next();
+		
+		int branchno, screenno;
+		switch(menu) {
+		case "1":
+			Print.printMessage("-> 원하시는 screenNo를 입력하세요.");
+			screenno = sc.nextInt();
+			Print.printMessage("-> 원하시는 branchNo를 입력하세요.");
+			branchno = sc.nextInt();
+			if(registerScreen(screenno, branchno)) 
+				Print.printMessage("!! 상영관 등록이 성공하였습니다.");
+			else
+				Print.printMessage("!! 상영관 등록이 실패하였습니다.");
+			break;
+		case "2":
+			Print.printMessage("-> 원하시는 screenNo를 입력하세요.");
+			screenno = sc.nextInt();
+			Print.printMessage("-> 원하시는 branchNo를 입력하세요.");
+			branchno = sc.nextInt();
+			if(removeScreen(screenno, branchno)) 
+				Print.printMessage("!! 상영관 삭제가 성공하였습니다.");
+			else
+				Print.printMessage("!! 상영관 삭제가 실패하였습니다.");
+			break;
+		case "3":
+			
+			break;
+			default:
+				break;
+		}
+	}
+	
 	// 상영관 등록
 	public boolean registerScreen(int screenNo, int branchNo) {
 		ScreenDAO screenDAO = new ScreenDAO();
