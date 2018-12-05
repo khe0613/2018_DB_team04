@@ -148,7 +148,7 @@ public class Member {
       
    }
    
-   public void MemberModifyStart(boolean isLogin) {
+   public void MemberModifyStart() {
       Print.printMessage("------------------ 회 원 정 보 관 리 ------------------");
       Print.printMessage("-> 원하시는 메뉴를 선택하세요.");
       Print.printMessage("1: 회원 정보 수정   2: 회원 탈퇴");
@@ -159,7 +159,7 @@ public class Member {
       // 회원 정보 수정
       if(menu.equals("1")) {
          if(modify()) {
-        	 Print.printMessage("!! 회원 정보 수정 성공");
+            Print.printMessage("!! 회원 정보 수정 성공");
          }
          else
             Print.printMessage("!! 회원 정보 수정 실패");
@@ -167,8 +167,8 @@ public class Member {
       // 회원 탈퇴
       if(menu.equals("2")) {
          if(delete()) {
-        	 Print.printMessage("!! 회원 탈퇴 성공");
-             isLogin = false; 
+            Print.printMessage("!! 회원 탈퇴 성공");
+            Movie.setLogin(false);
          }
          else {
             Print.printMessage("!! 회원 탈퇴 실패");
@@ -204,9 +204,7 @@ public class Member {
       
       System.out.print("전화번호 : ");
       String new_phoneNum = sc.next();
-      
-      sc.close();
-      
+
       if(new MemberDAO().modifyMember(new_id, new_pw, new_name, new_birth, new_address, new_phoneNum)) {   // 성공
          this.id = new_id;
          this.pw = new_pw;
