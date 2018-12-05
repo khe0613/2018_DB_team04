@@ -101,7 +101,6 @@ public class Member {
 		System.out.print("아이디 : ");		this.id = sc.nextLine();
 		System.out.print("비밀번호 : ");	this.pw = sc.nextLine();
 		
-		sc.close();
 		loginResult result = new MemberDAO().loginMember(this);
 		switch(result) {
 		case SUCCESS:
@@ -137,8 +136,6 @@ public class Member {
 		System.out.print("주소 : ");		this.address = sc.nextLine();
 		System.out.print("전화번호 : ");	this.phoneNum = sc.nextLine();
 		this.point = 0;
-		
-		sc.close();
 		
 		if(new MemberDAO().registerMember(this)) {	
 			return true;									// 성공
