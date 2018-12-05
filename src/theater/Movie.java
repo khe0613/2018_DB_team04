@@ -119,6 +119,7 @@ public class Movie {
 		switch(menu) {
 		case 회원정보관리:
 			Print.printMessage(menu);
+			member.MemberModifyStart();
 			break;
 		case 영화정보검색:
 			Print.printMessage(menu);
@@ -128,6 +129,7 @@ public class Movie {
 			break;
 		case 영화결제:
 			Print.printMessage(menu);
+			new payment().start(member.getId());
 			break;
 		default:
 			Print.printMessage(menu);

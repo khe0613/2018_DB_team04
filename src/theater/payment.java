@@ -14,8 +14,18 @@ public class payment {
 	
 	Scanner sc = new Scanner(System.in);
 	
-	public payment(String id) throws SQLException, ClassNotFoundException { // id를 인자로 받아옴
-		System.out.println("결제하려는 티켓의 예매번호를 입력해주세요.");
+	public void start(String id) {
+		try {
+			paymentStart(id);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void paymentStart(String id) throws SQLException, ClassNotFoundException { // id를 인자로 받아옴
+		Print.printMessage("------------------- 영 화 결 제 -------------------");
+		Print.printMessage("-> 결제하려는 티켓의 예매번호를 입력해주세요.");
 		String resNo = sc.next(); 
 		
 		Class.forName("com.mysql.jdbc.Driver");
@@ -26,17 +36,19 @@ public class payment {
 		rs = pstmt.executeQuery();
 		Boolean isPayment = rs.getBoolean("isPayment");
 		if(isPayment == false) { // 결제여부확인
-			System.out.println("결제 유형을 선택해주세요. 1. 인터넷 결제	2. 현장 결제");
+			Print.printMessage("-> 결제 유형을 선택해주세요.");
+			Print.printMessage("1. 인터넷 결제 2. 현장 결제");
 			int paymentType = sc.nextInt();
 			if(paymentType == 1) { // 인터넷 결제
+				Print.printMessage("-------------- 인 터 넷 결 제 --------------");
 				InternetPayment(id,resNo);
 			}else { // 현장 결제
-				System.out.println("현장에서 관리자에게 결제해주세요.");
+				System.out.println("!! 현장에서 관리자에게 결제해주세요.");
 			}			
 		}else if(isPayment == null){
 			System.out.println("존재하지 않는 예매번호입니다.");
 		}else {
-			System.out.println("이미 결제가 완료된 티켓입니다.");
+			System.out.println("!! 이미 결제가 완료된 티켓입니다.");
 		}
 	}
 	
@@ -57,7 +69,8 @@ public class payment {
 		int ticketPrice = rs.getInt("price");
 		int ticketCount = ticketPrice/10000;
 		
-		System.out.println("포인트를 사용하시겠습니까? 1. 네	2. 아니요");
+		System.out.println("!! 포인트를 사용하시겠습니까?");
+		Print.printMessage("1: 네  2: 아니오");
 		int pointType = sc.nextInt(); 
 		if(pointType == 1) { // 포인트 사용
 			System.out.println("포인트를 얼마나 사용하시겠습니까?");

@@ -170,4 +170,7 @@ public class TheaterInfo {
 		return new TheaterInfoDAO().removeTheater(this.branchNo);		// 성공할 경우 true, 실패할 경우 false가 리턴됨
 	}
 	
+	public boolean theaterList() {
+		
+	}
 }
