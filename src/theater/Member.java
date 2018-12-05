@@ -5,6 +5,7 @@ package theater;
 import java.util.Scanner;
 
 import dao.MemberDAO;
+import dao.MemberDAO.loginResult;
 
 public class Member {
 	private String id;
@@ -91,6 +92,39 @@ public class Member {
 			return false;
 	}
 	
+	// 로그인
+	public Member login() {
+		Member member = new Member();
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.println("---------------- 로 그 인 ----------------");
+		System.out.print("아이디 : ");		this.id = sc.nextLine();
+		System.out.print("비밀번호 : ");	this.pw = sc.nextLine();
+		
+		sc.close();
+		loginResult result = new MemberDAO().loginMember(this);
+		switch(result) {
+		case SUCCESS:
+			Print.printMessage("로그인에 성공하였습니다.");
+			member.setId(this.id);
+			member.setPw(this.pw);
+			return member;
+		case DB_FAILED:
+			Print.printMessage("로그인에 실패하였습니다.");
+			Print.printMessage("실패사유 : DB 처리 과정 중 오류 발생");
+			return null;
+		case INVALID_PW:
+			Print.printMessage("로그인에 실패하였습니다.");
+			Print.printMessage("실패사유 : 맞지 않는 비밀번호 입력");
+			return null;
+		case NOT_ID_IN_DB:
+			Print.printMessage("로그인에 실패하였습니다.");
+			Print.printMessage("실패사유 : 입력하신 아이디가 존재하지 않음");
+			return null;
+		}
+		return null;
+		
+	}
 	// 회원 가입
 	public boolean register() {
 		Scanner sc = new Scanner(System.in);

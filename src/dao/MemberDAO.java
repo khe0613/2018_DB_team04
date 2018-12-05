@@ -3,8 +3,10 @@ package dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import DAO.AccountDAO.loginResult;
 import theater.Member;
 
 public class MemberDAO {
@@ -29,6 +31,45 @@ public class MemberDAO {
 		
 	}
 	
+	public enum loginResult {
+		SUCCESS,
+		NOT_ID_IN_DB,
+		INVALID_PW,
+		DB_FAILED
+	}
+	
+	// 로그인
+	public loginResult loginMember(Member member) {
+		String rsID, rsPWD;
+		
+		try {
+			String SQL = "SELECT id, pw FROM member WHERE id = ?";
+			pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, member.getId());
+			ResultSet rs = pstmt.executeQuery();
+			
+			// 조회결과 아이디 없음
+			if(!rs.next()) {
+				return loginResult.NOT_ID_IN_DB;	
+			}
+			
+			rsID = rs.getString("id");
+			rsPWD = rs.getString("pw");
+			
+			// 비밀번호가 맞지 않음
+			if(!rsPWD.equals(member.getPw())) {
+					return loginResult.INVALID_PW;
+				}
+						
+			return loginResult.SUCCESS;
+		}catch(SQLException e){
+	        e.printStackTrace();
+	    }finally{
+	    	 if(pstmt != null) try{pstmt.close();}catch(SQLException sqle){}
+		      if(conn != null) try{conn.close();}catch(SQLException sqle){}
+	    }
+		return loginResult.DB_FAILED;
+	}
 	
 	// 회원 가입
 	public boolean registerMember(Member member) {

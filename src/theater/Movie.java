@@ -2,11 +2,14 @@ package theater;
 
 import java.util.Scanner;
 
+import dao.MemberDAO;
+
 public class Movie {
 	static boolean isLogin = false;
 	static boolean isAdmin = false;
 	private static Scanner sc = new Scanner(System.in);
 	static String input_loginmenu;
+	static Member member = new Member();
 	
 	public enum ClientMenu {
 		회원정보관리, 영화정보검색, 영화예약, 영화결제, 다시입력하세요;
@@ -84,10 +87,22 @@ public class Movie {
 	}
 	
 	public static void loginMenu(String menu) {
+		
+		
 		if(menu.equals("1")) {
 			Print.printMessage("로그인 기능");
+			Member temp = member.login();
+			if(temp != null) {
+				member.setId(temp.getId());
+				member.setPw(temp.getPw());
+			}
+			else {
+				loginMenuPrint();
+			}
+				
 		}
 		if(menu.equals("2")) {
+			Print.printMessage("회원가입 기능");
 			Member member = new Member();
 			
 			if(!member.register()) {	// 회원 가입 실패
