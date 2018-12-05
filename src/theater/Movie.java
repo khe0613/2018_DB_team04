@@ -54,7 +54,7 @@ public class Movie {
 		if(!isLogin) {
 			loginMenuPrint();	
 		}
-		//isAdmin = AdminCheck(id); // id 구별해서 관리자면 true, 아니면 false 리턴해서 넣기.
+		isAdmin = member.AdminCheck(member.getId()); // id 구별해서 관리자면 true, 아니면 false 리턴해서 넣기.
 		Print.printMessage("-> 원하시는 메뉴를 선택하세요.");
 		if(!isAdmin) {
 			Print.printMessage("1: 회원정보관리    2: 영화정보검색    3: 영화예약    4: 영화결제");
@@ -95,6 +95,7 @@ public class Movie {
 			if(temp != null) {
 				member.setId(temp.getId());
 				member.setPw(temp.getPw());
+				isLogin = true;
 			}
 			else {
 				loginMenuPrint();
@@ -108,7 +109,7 @@ public class Movie {
 			if(!member.register()) {	// 회원 가입 실패
 				member = null;
 			}
-			
+			isLogin = true;
 			//Print.printMessage("회원가입 기능");
 		}
 	}
