@@ -183,8 +183,6 @@ public class Member {
 		
 		
 		System.out.println("---------------- 회원 정보 수정 ----------------");
-		System.out.print("아이디 : ");
-		String new_id = sc.nextLine();
 		
 		System.out.print("비밀번호 : ");
 		String new_pw = sc.nextLine();
@@ -203,8 +201,8 @@ public class Member {
 		
 		sc.close();
 		
-		if(new MemberDAO().modifyMember(new_id, new_pw, new_name, new_birth, new_address, new_phoneNum)) {	// 성공
-			this.id = new_id;
+		if(new MemberDAO().modifyMember( this.id, new_pw, new_name, new_birth, new_address, new_phoneNum)) {	// 성공
+		
 			this.pw = new_pw;
 			this.name = new_name;
 			this.birth = new_birth;
