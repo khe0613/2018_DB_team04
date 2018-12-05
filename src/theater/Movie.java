@@ -119,7 +119,7 @@ public class Movie {
 		switch(menu) {
 		case 회원정보관리:
 			Print.printMessage(menu);
-			member.MemberModifyStart();
+			member.MemberModifyStart(isLogin);
 			break;
 		case 영화정보검색:
 			Print.printMessage(menu);

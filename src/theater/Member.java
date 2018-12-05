@@ -148,7 +148,7 @@ public class Member {
       
    }
    
-   public void MemberModifyStart(Member member) {
+   public void MemberModifyStart(boolean isLogin) {
       Print.printMessage("------------------ 회 원 정 보 관 리 ------------------");
       Print.printMessage("-> 원하시는 메뉴를 선택하세요.");
       Print.printMessage("1: 회원 정보 수정   2: 회원 탈퇴");
@@ -158,18 +158,21 @@ public class Member {
       
       // 회원 정보 수정
       if(menu.equals("1")) {
-         if(modify())
-            Print.printMessage("!! 회원 정보 수정 성공");
+         if(modify()) {
+        	 Print.printMessage("!! 회원 정보 수정 성공");
+         }
          else
             Print.printMessage("!! 회원 정보 수정 실패");
       }
       // 회원 탈퇴
       if(menu.equals("2")) {
-         if(delete())
-            Print.printMessage("!! 회원 탈퇴 성공");
-            member.is
-         else 
+         if(delete()) {
+        	 Print.printMessage("!! 회원 탈퇴 성공");
+             isLogin = false; 
+         }
+         else {
             Print.printMessage("!! 회원 탈퇴 실패");
+         }
       }
    }
    
