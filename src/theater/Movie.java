@@ -108,6 +108,7 @@ public class Movie {
 			
 			if(!member.register()) {	// 회원 가입 실패
 				member = null;
+				return ;
 			}
 			isLogin = true;
 			//Print.printMessage("회원가입 기능");
