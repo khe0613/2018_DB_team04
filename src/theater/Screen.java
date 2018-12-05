@@ -29,7 +29,6 @@ public class Screen {
 	}
 	
 
-	
 	public int getTotalSeatNum() {
 		return totalSeatNum;
 	}
@@ -38,8 +37,11 @@ public class Screen {
 		return leftSeatNum;
 	}
 	
+	// 상영관 등록
 	public boolean registerScreen(int screenNo, int branchNo) {
+		ScreenDAO screenDAO = new ScreenDAO();
 		Scanner sc = new Scanner(System.in);
+		boolean success;
 		
 		System.out.println("---------------- 상영관 등록 ----------------");
 		this.screenNo = screenNo;
@@ -47,17 +49,59 @@ public class Screen {
 		System.out.print("전체좌석수 : ");	this.totalSeatNum = sc.nextInt();
 		this.leftSeatNum = this.totalSeatNum;
 		
-		//if(new ScreenDAO().registerScreen(this))
 		
-		return true;
+		if(screenDAO.registerScreen(this)) {
+			System.out.println("상영관 등록에 성공하셨습니다.");
+			success = true;
+		}else {
+			System.out.println("상영관 등록에 실패하셨습니다.");
+			success = false;
+		}
+		
+		screenDAO.disconnectDB();
+		return success;
 	}
 	
-	public boolean removeScreen() {
-		return true;
+	// 상영관 삭제
+	public boolean removeScreen(int screenNo, int branchNo) {
+		ScreenDAO screenDAO = new ScreenDAO();
+		boolean success;
+		
+		System.out.println("---------------- 상영관 삭제 ----------------");
+		if(screenDAO.removeScreen(screenNo, branchNo)) {
+			System.out.println("상영관 삭제에 성공하셨습니다.");
+			success = true;
+		}else {
+			System.out.println("상영관 삭제에 실패하셨습니다..");
+			success = false;
+		}
+		
+		screenDAO.disconnectDB();
+		
+		return success;
 	}
 	
-	public boolean modifyScreen() {
-		return true;
+	// 상영관 수정
+	public boolean modifyScreen(Screen screen) {
+		ScreenDAO screenDAO = new ScreenDAO();
+		boolean success;
+		
+		System.out.println("---------------- 상영관 수정 ----------------");
+		if(screenDAO.modifyScreen(screen)) {
+			this.screenNo = screen.getScreenNo();
+			this.branchNo = screen.getBranchNo();
+			this.scheduleCode = screen.getScheduleCode();
+			this.totalSeatNum = screen.getTotalSeatNum();
+			this.leftSeatNum =  screen.getLeftSeatNum();
+			
+			System.out.println("상영관 수정에 성공하셨습니다.");
+			success = true;
+		}else {
+			System.out.println("상영관 수정에 실패하셨습니다.");
+			success = false;
+		}
+		
+		return success;
 	}
 	
 

@@ -139,19 +139,19 @@ public class MemberDAO {
 	
 	//회원 정보 수정
 	public boolean modifyMember(String id, String pw, String name, String birth, String address, String phoneNum) {
-		String sql = "UPDATE member SET id = ? , pw = ?, name = ?, birth = ?, address = ?, phoneNum = ? WHERE id = ?";
+		String sql = "UPDATE member SET  pw = ?, name = ?, birth = ?, address = ?, phoneNum = ? WHERE id = ?";
 		boolean not_error_flag = false;											//	회원정보 수정 중 에러발생 여부
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, id);
-			pstmt.setString(2, pw);
-			pstmt.setString(3, name);
-			pstmt.setString(4, birth);
-			pstmt.setString(5, address);
-			pstmt.setString(6, phoneNum);
-			pstmt.setString(7, id);
+			
+			pstmt.setString(1, pw);
+			pstmt.setString(2, name);
+			pstmt.setString(3, birth);
+			pstmt.setString(4, address);
+			pstmt.setString(5, phoneNum);
+			pstmt.setString(6, id);
 			pstmt.executeUpdate();
 			
 			not_error_flag = true;
