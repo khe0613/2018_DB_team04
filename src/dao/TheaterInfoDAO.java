@@ -150,6 +150,8 @@ public class TheaterInfoDAO {
 			
 			if(!rs.next()) {
 				if(rs!= null) try {rs.close();}catch (Exception e) {}
+				if(pstmt != null) try{pstmt.close();}catch(SQLException sqle){}
+			     if(conn != null) try{conn.close();}catch(SQLException sqle){}
 				return -1;
 			}
 			
@@ -160,6 +162,9 @@ public class TheaterInfoDAO {
 		}
 		
 		if(rs!= null) try {rs.close();}catch (Exception e) {}
+		if(pstmt != null) try{pstmt.close();}catch(SQLException sqle){}
+	    if(conn != null) try{conn.close();}catch(SQLException sqle){}
+	     
 		return branch_no;
 	}
 	
@@ -205,4 +210,5 @@ public class TheaterInfoDAO {
 	    }
 		return null;
 	}
+	
 }

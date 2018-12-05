@@ -8,6 +8,7 @@ import dao.ScreenDAO;
 public class Screen {
 	private int screenNo;		// 상영관 코드
 	private int branchNo;		// 지점 코드
+	private int scheduleCode;	// 일정코드
 	private int totalSeatNum; 	// 전체좌석수
 	private int leftSeatNum;	// 잔여석
 	
@@ -20,7 +21,11 @@ public class Screen {
 	}
 	
 	public int getBranchNo() {
-		return branchNo;
+		return this.branchNo;
+	}
+	
+	public int getScheduleCode() {
+		return this.scheduleCode;
 	}
 	
 
@@ -42,7 +47,7 @@ public class Screen {
 		System.out.print("전체좌석수 : ");	this.totalSeatNum = sc.nextInt();
 		this.leftSeatNum = this.totalSeatNum;
 		
-		if(new ScreenDAO().registerScreen(this))
+		//if(new ScreenDAO().registerScreen(this))
 		
 		return true;
 	}
