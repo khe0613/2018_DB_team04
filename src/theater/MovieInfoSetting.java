@@ -124,6 +124,11 @@ public class MovieInfoSetting {
 	public void getMovieInfoList() {
 		ArrayList<MovieInfoSetting> arrayList = new ArrayList<MovieInfoSetting>();
 		arrayList = new MovieInfoSettingDAO().getMovieInfoListSQL();
+		if(arrayList == null) {
+			Print.printMessage("아무 정보도 등록되지 않았습니다.");
+			Print.printMessage("-----------------------------------------------------");
+			return;
+		}
 		Print.printMessage("영화코드	영화명	감독명	영화주요정보	상영시간	개봉일	상영등급	출연자명	장르명");
 		int i = 0;
 		while(i < arrayList.size()) {
