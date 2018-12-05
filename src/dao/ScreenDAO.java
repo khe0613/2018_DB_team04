@@ -72,7 +72,7 @@ public class ScreenDAO {
 	
 	// 상영관 삭제
 	public boolean removeScreen(int screenNo, int branchNo) {
-		String sql = "DELETE FROM screen WHERE (screenNum = ?) and (branchNo = ?)";
+		String sql = "DELETE FROM screen WHERE (screenNo = ?) and (branchNo = ?)";
 		boolean not_error_flag = true;
 		
 		
@@ -81,7 +81,7 @@ public class ScreenDAO {
 			
 			pstmt.setInt(1, screenNo);
 			pstmt.setInt(2, branchNo);
-			pstmt.executeQuery();
+			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
