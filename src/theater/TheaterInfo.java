@@ -121,11 +121,9 @@ public class TheaterInfo {
       
       System.out.println("---------------- 영화관 등록 ----------------");
       System.out.print("상영관 수 : ");   this.screenNum = sc.nextInt();
-      System.out.print("주소 : ");      this.address = sc.nextLine();
-      System.out.print("전화번호 : ");   this.tel = sc.nextLine();
-      System.out.print("지점명 : ");      this.branchName = sc.nextLine();
-
-      sc.close();
+      System.out.print("주소 : ");      this.address = sc.next();
+      System.out.print("전화번호 : ");   this.tel = sc.next();
+      System.out.print("지점명 : ");      this.branchName = sc.next();
       
       if((this.branchNo = new TheaterInfoDAO().registerTheater(this)) != -1) {         // 영화관 등록 성공(지점코드가 리턴됨)
          return true;
@@ -142,21 +140,23 @@ public class TheaterInfo {
       Scanner sc = new Scanner(System.in);
       
       System.out.println("---------------- 영화관 정보 수정 ----------------");
+      System.out.print("수정할 지점 코드 : ");
+      int branchNo = sc.nextInt();
+      
       System.out.print("상영관 수 : ");
       int new_screenNum = sc.nextInt();
       
       System.out.print("주소 : ");
-      String new_address = sc.nextLine();
+      String new_address = sc.next();
       
       System.out.print("전화번호 : ");
-      String new_tel = sc.nextLine();
+      String new_tel = sc.next();
       
       System.out.print("지점명 : ");   
-      String new_branchName = sc.nextLine();
-      
-      sc.close();
-      
-      if(new TheaterInfoDAO().modifyTheaterInfo(this.branchNo, new_screenNum, new_address, new_tel, new_branchName)) {
+      String new_branchName = sc.next();
+
+      if(new TheaterInfoDAO().modifyTheaterInfo(branchNo, new_screenNum, new_address, new_tel, new_branchName)) {
+    	 this.branchNo = branchNo;
          this.screenNum = new_screenNum;
          this.address = new_address;
          this.tel = new_tel;
@@ -170,9 +170,12 @@ public class TheaterInfo {
    }
    
    // 영화관 삭제
-   public boolean removeTheater() {
-      return new TheaterInfoDAO().removeTheater(this.branchNo);      // 성공할 경우 true, 실패할 경우 false가 리턴됨
-   }
+   	public boolean removeTheater() {
+	      Scanner sc = new Scanner(System.in);
+	      System.out.print("삭제할 지점코드 : ");   
+	      int remove_branchNo = sc.nextInt();
+	      return new TheaterInfoDAO().removeTheater(remove_branchNo);      // 성공할 경우 true, 실패할 경우 false가 리턴됨
+	   }
    
    public void theaterList() {
       TheaterInfoDAO theaterInfoDAO = new TheaterInfoDAO();
@@ -184,12 +187,12 @@ public class TheaterInfo {
          return;
       }
       
-      Print.printMessage("지점명코드   상영관수   주소   전화번호   지점명");
+      Print.printMessage("지점코드    상영관수   	  주소	     전화번호 	 지점명");
       int i = 0;
       while(i < result.size()) {
          TheaterInfo temp = result.get(i);
-         Print.printMessage(temp.getBranchNo() + "   " + temp.getScreenNum() + "   " + temp.getAddress()
-         + "   " + temp.getTel() + " " + temp.getBranchName());
+         Print.printMessage(temp.getBranchNo() + "   	" + temp.getScreenNum() + " 	  " + temp.getAddress()
+         + " 	   " + temp.getTel() + "		 " + temp.getBranchName());
          
          i++;
       }

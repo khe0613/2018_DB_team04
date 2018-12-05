@@ -98,8 +98,8 @@ public class Member {
       Scanner sc = new Scanner(System.in);
       
       System.out.println("---------------- 로 그 인 ----------------");
-      System.out.print("아이디 : ");      this.id = sc.nextLine();
-      System.out.print("비밀번호 : ");   this.pw = sc.nextLine();
+      System.out.print("아이디 : ");      this.id = sc.next();
+      System.out.print("비밀번호 : ");   this.pw = sc.next();
       
       loginResult result = new MemberDAO().loginMember(this);
       switch(result) {
@@ -129,12 +129,12 @@ public class Member {
       Scanner sc = new Scanner(System.in);
       
       System.out.println("---------------- 회원 가입 ----------------");
-      System.out.print("아이디 : ");      this.id = sc.nextLine();
-      System.out.print("비밀번호 : ");   this.pw = sc.nextLine();
-      System.out.print("성명 : ");      this.name = sc.nextLine();
-      System.out.print("생년월일 : ");   this.birth = sc.nextLine();
-      System.out.print("주소 : ");      this.address = sc.nextLine();
-      System.out.print("전화번호 : ");   this.phoneNum = sc.nextLine();
+      System.out.print("아이디 : ");      this.id = sc.next();
+      System.out.print("비밀번호 : ");   this.pw = sc.next();
+      System.out.print("성명 : ");      this.name = sc.next();
+      System.out.print("생년월일 : ");   this.birth = sc.next();
+      System.out.print("주소 : ");      this.address = sc.next();
+      System.out.print("전화번호 : ");   this.phoneNum = sc.next();
       this.point = 0;
       
       Member member = new Member();
@@ -188,22 +188,22 @@ public class Member {
       
       System.out.println("---------------- 회원 정보 수정 ----------------");
       System.out.print("아이디 : ");
-      String new_id = sc.nextLine();
+      String new_id = sc.next();
       
       System.out.print("비밀번호 : ");
-      String new_pw = sc.nextLine();
+      String new_pw = sc.next();
       
       System.out.print("성명 : ");
-      String new_name = sc.nextLine();
+      String new_name = sc.next();
       
       System.out.print("생년월일 : ");
-      String new_birth = sc.nextLine();
+      String new_birth = sc.next();
       
       System.out.print("주소 : ");
-      String  new_address = sc.nextLine();
+      String  new_address = sc.next();
       
       System.out.print("전화번호 : ");
-      String new_phoneNum = sc.nextLine();
+      String new_phoneNum = sc.next();
       
       sc.close();
       
