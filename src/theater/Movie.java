@@ -152,7 +152,7 @@ public class Movie {
 			break;
 		case 영화정보검색:
 			Print.printMessage(menu);
-			// 영화정보 검색 연결해야함
+			new SearchMovie().getChart();
 			break;
 		case 영화예약:
 			Print.printMessage(menu);

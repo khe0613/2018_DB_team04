@@ -10,17 +10,13 @@ import java.util.List;
 
 // 영화 DAO
 public class MovieDAO {
-	String jdbcUrl = "jdbc:mysql://localhost:3306/theater";
+	String jdbcUrl = "jdbc:mysql://localhost:3306/theater?useSSL=false";
 	String dbId = "parkyoonjung";;
 	String dbPass = "qkrdbswjd";
 
 	Connection conn;
 	PreparedStatement pstmt;
 	ResultSet rs;
-	
-	public MovieDAO() {
-	
-	}
 	
 	private void connectDB() {
 		try {
@@ -62,8 +58,27 @@ public class MovieDAO {
 		}
 		
 		disConnectDB();
-		
 		return movieList;
+	}
+	
+	public String getMovieName(int movieNo) { // 영화 코드에 대한 영화이름 가져오기
+		connectDB();
+		String sql = "SELECT * FROM movie inner join screeningtable on (movie.movieNo = screeningtable.movieNo) where ";
+		String movieName = " ";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, movieNo);
+			rs = pstmt.executeQuery();
+			if(!rs.next()) { // 영화 정보가 없으면
+				return null;
+			}else {
+				movieName = rs.getString("movieName");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		disConnectDB();
+		return movieName;
 	}
 	
 }
