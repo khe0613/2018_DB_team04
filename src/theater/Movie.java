@@ -156,6 +156,7 @@ public class Movie {
 			break;
 		case 영화예약:
 			Print.printMessage(menu);
+			 new Reservation(member.getId()).ReservationStart();
 			break;
 		case 영화결제:
 			Print.printMessage(menu);
