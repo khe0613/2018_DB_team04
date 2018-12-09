@@ -139,7 +139,7 @@ public class MovieInfoSetting {
 			
 			i++;
 		}
-		Print.printMessage("총 " + i+1 + "개의 영화 정보가 저장되어있습니다.");
+		Print.printMessage("총 " + (i) + "개의 영화 정보가 저장되어있습니다.");
 		Print.printMessage("-----------------------------------------------------");
 	}
 	

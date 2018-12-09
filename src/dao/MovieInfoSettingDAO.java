@@ -57,7 +57,7 @@ public class MovieInfoSettingDAO {
              return true;
           }
           */
-          Print.printMessage("result " + result);
+        //  Print.printMessage("result " + result);
           return true;
       }catch(Exception e) {
             e.printStackTrace();
