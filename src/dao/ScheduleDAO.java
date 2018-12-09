@@ -8,19 +8,19 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-// 영화관 DAO
-public class TheaterDAO {
-	String jdbcUrl = "jdbc:mysql://localhost:3306/theater";
+import theater.Schedule;
+
+
+// 일정 DAO
+public class ScheduleDAO {
+
+	String jdbcUrl = "jdbc:mysql://localhost:3306/theater?useSSL=false";
 	String dbId = "parkyoonjung";;
 	String dbPass = "qkrdbswjd";
 
 	Connection conn;
 	PreparedStatement pstmt;
 	ResultSet rs;
-	
-	public TheaterDAO() {
-		
-	}
 	
 	private void connectDB() {
 		try {
@@ -40,33 +40,34 @@ public class TheaterDAO {
 	}
 	
 	
-	// 영업중인 영화관 리스트를 (지점코드. 지점명) 형태로 반환
-	public List<String> getTheaterList(){
+	// 선택한 지점과 영화에 대한 일정 코드를 받아, 일정 객체를 반환하는 함수
+	public Schedule getScheduleList(int schNo){
 		connectDB();
-		String sql = "SELECT branchNo, branchName FROM theater";
-		List<String> theaterList = new ArrayList<>();
-		
+		String sql ="SELECT * FROM schedule WHERE schNo = ?";
+		Schedule schedule = null;
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, schNo);
 			rs = pstmt.executeQuery();
 			
 			if(!rs.next()) {
-				return theaterList; // 상영중인 영화 없으면 빈 리스트 리턴
-			}
+				return null;		// 없으면 null 반환
+			}else {
+				schedule = new Schedule();
+				schedule.setSchNo(schNo);
+				schedule.setStartTime(rs.getString("startTime"));
+				schedule.setEndTime(rs.getString("endTime"));
+				schedule.setScreeningDate(rs.getString("screeningDate"));
+				}
 			
-			do {
-				String theater = rs.getInt("branchNo") + ". " + rs.getString("branchName");
-				theaterList.add(theater);
-				}while(rs.next());
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
 		disConnectDB();
-
-		return theaterList;
 		
+		return schedule;
 	}
 }

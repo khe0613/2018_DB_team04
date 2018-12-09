@@ -38,7 +38,7 @@ public class ScreeningTableDAO {
 	// 선택한 영화, 지점에 대한 일정 코드 리스트를 리턴
 	public List<Integer> getScheduleCodeList(int movieNo, int branchNo){
 		connectDB();
-		String sql = "SELECT schNo FROM screeningTable WHERE (movieNo = ?) AND (branchNo = ?)";
+		String sql = "SELECT schNo FROM screeningTable WHERE (movieNo = ?) AND (movieBranchNo = ?)";
 		List<Integer> scheduleCodeList = new ArrayList<>();
 		
 		try {
@@ -84,4 +84,38 @@ public class ScreeningTableDAO {
 		disConnectDB();
 		return true;
 	}
+	
+	// 일단 보류
+	// 선택한 영화, 지점, 상영 날짜에 대한 상영관 리스트 반환
+	public List<Integer> getScreenList(int movieNo, int branchNo,  int schNo){
+		connectDB();
+		String sql = "SELECT screenNo FROM screeningtable WHERE (movieNo = ?)"
+				+ " AND (movieBranchNo = ?) AND (schNo = ?)";
+		List<Integer> screenList = new ArrayList<>();
+		
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, movieNo);
+			pstmt.setInt(2, branchNo);
+			pstmt.setInt(3, schNo);
+			rs = pstmt.executeQuery();
+			
+			if(!rs.next()) {
+				return screenList;		// 없을 경우 빈 리스트 반환
+			}
+			
+			do {
+				screenList.add(rs.getInt("screenNo"));
+			}while(rs.next());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		disConnectDB();
+		return screenList;
+	}
+	
+	
+	
 }

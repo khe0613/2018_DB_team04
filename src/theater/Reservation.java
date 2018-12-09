@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import dao.MovieDAO;
+import dao.ScheduleDAO;
 import dao.ScreeningTableDAO;
 import dao.TheaterDAO;
 
@@ -31,6 +32,7 @@ public class Reservation {
 		      
 		      // 영화 예약
 		      if(menu.equals("1")) {
+		    	  // 멤버 id 필요함
 		    	  add();
 		      }
 		      
@@ -53,8 +55,23 @@ public class Reservation {
 		System.out.println("영화관을 선택해주세요.");
 		int branchNo = selectTheater();
 		
+		// 선택한 영화관, 영화에 대한 일정 리스트 받아오기
+		List<Schedule> scheduleList = getScheduleList(movieNo, branchNo);
+		
 		System.out.println("상영날짜를 선택해주세요.");
-		int movieSchedule = selectDay(movieNo, branchNo);
+		String screeningDate = selectDate(scheduleList);
+		
+		System.out.println("상영시간을 선택해주세요.");
+		String time = selectTime(scheduleList, screeningDate);
+		
+		int schNo = getScheduleCode(scheduleList, screeningDate, time);	// 선택한 날짜, 시간에 대한 일정 코드 얻어오기
+		
+		
+		System.out.println("상영관을 선택해주세요.");
+		int screenNum = selectScreen(movieNo, branchNo, schNo);
+		
+		System.out.println(screenNum);
+		
 		
 	}
 	
@@ -62,8 +79,7 @@ public class Reservation {
 		
 		/*
 	
-		System.out.println("상영날짜를 선택해주세요.");
-		int movieSchedule = selectDay(movieNo,branchNo);
+		
 		System.out.println("상영관을 선택해주세요.");
 		int screenNum = selectScreen();
 		System.out.println("시간을 선택해주세요.");
@@ -112,32 +128,110 @@ public class Reservation {
 	}
 	
 	
-	// 상영 날짜 선택
-	public int selectDay(int movieNo, int branchNo) { 
-		System.out.println("-----------------선택한 지점과 영화에 대한 상영 날짜---------------");
+	// 선택한 영화, 영화관에 대한 스케줄(일정) 리스트 반환
+	public List<Schedule> getScheduleList(int movieNo, int branchNo) { 
 		ScreeningTableDAO screeningTableDAO = new ScreeningTableDAO();
+		ScheduleDAO scheduleDAO = new ScheduleDAO();
 		
 		List<Integer> scheduleCodeList = screeningTableDAO.getScheduleCodeList(movieNo, branchNo);
+		List<Schedule> scheduleList= new ArrayList<>();	// 스케줄  리스트
+		for(int schNo : scheduleCodeList) {
+			Schedule schedule = scheduleDAO.getScheduleList(schNo);
+			if(schedule != null) {
+				scheduleList.add(schedule);
+			}
+		}
 		
-		
-		
-	//	sql = "";	// 날짜 선택하기
-
-		return 0;
+		return scheduleList;
 	}
 	
-	public int selectScreen() { // 상영관 선택
-		System.out.println("-----------------선택한 지점,영화,상영 날짜에 대한 상영관---------------");
-
-
-		return 0;
-	}
 	
-	public void selectTime() { // 시간 선택
+	// 선택한 지점과 영화에 대한 상영 날짜 선택하기
+	public String selectDate(List<Schedule> scheduleList) {
+		List<String> dateList = new ArrayList<String>();
 		
+		for(Schedule schedule: scheduleList) {
+			String date = schedule.getScreeningDate();
+			if(!dateList.contains(date)) {
+				dateList.add(date);
+			}
+			
+		}
+	
+		System.out.println("-----------------선택한 지점과 영화에 대한 상영 날짜---------------");
+		for(int i = 0; i<dateList.size(); i++) {
+			System.out.print((i+1) +". " + dateList.get(i) +"\t");
+		}
+		System.out.println();
+		
+		Scanner sc = new Scanner(System.in);
+		int selected = sc.nextInt();
+		
+		return dateList.get(selected-1);
 	}
 	
-	public String selectSeat(int num) { // 좌석 선택
-		return null;
+	
+	// 선택한 지점, 영화, 날짜에 대한 상영 시간 선택하기
+	public String selectTime(List<Schedule> scheduleList, String screeningDate) {
+		List<String> timeList = new ArrayList<>();
+		
+		System.out.println("-----------------선택한 지점, 영화, 날짜에 대한 상영 날짜---------------");
+		for(Schedule schedule : scheduleList) {
+			if( schedule.getScreeningDate().equals(screeningDate)) {
+				String time = schedule.getStartTime() + "~" + schedule.getEndTime();
+				if(!timeList.contains(time)){
+					timeList.add(time);
+				}
+			}
+		}
+		
+		for(int i = 0; i < timeList.size(); i++) {
+			System.out.print((i+1) +". " + timeList.get(i) +"\t");
+		}
+		System.out.println();
+		
+		
+		
+		Scanner sc = new Scanner(System.in);
+		int selected = sc.nextInt();
+		
+		return timeList.get(selected-1);
 	}
+	
+	 public int getScheduleCode(List<Schedule> scheduleList, String screeningDate, String time) {
+		 String start_time = time.split("~")[0];
+		 String  end_time = time.split("~")[1];
+		 int sch_code = -1;
+		 
+		 for(Schedule schedule: scheduleList) {
+			 if(schedule.getStartTime().equals(start_time)
+					 && schedule.getEndTime().equals(end_time)
+					 && schedule.getScreeningDate().equals(screeningDate)) {
+				 sch_code = schedule.getSchNo();
+				 break;
+			 }
+		 }
+		 
+		 return sch_code;
+	 }
+	
+	public int selectScreen(int movieNo, int branchNo, int schNo) {
+		System.out.println("-----------------선택한 지점,영화, 날짜, 시간에 대한 상영관---------------");
+		
+		ScreeningTableDAO screeningTableDAO = new ScreeningTableDAO();
+		List<Integer> screenList = screeningTableDAO.getScreenList(movieNo, branchNo, schNo);
+		
+		for(int i=0; i< screenList.size(); i++) {
+			System.out.print((i+1) +". 상영관 " +screenList.get(i) +"\t");
+		}
+		System.out.println();
+		
+		Scanner sc = new Scanner(System.in);
+		int selected = sc.nextInt();
+		
+		return screenList.get(selected - 1);
+	}
+	
+	
+	
 }
