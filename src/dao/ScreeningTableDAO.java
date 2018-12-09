@@ -85,7 +85,7 @@ public class ScreeningTableDAO {
 		return true;
 	}
 	
-	// 일단 보류
+	
 	// 선택한 영화, 지점, 상영 날짜에 대한 상영관 리스트 반환
 	public List<Integer> getScreenList(int movieNo, int branchNo,  int schNo){
 		connectDB();
@@ -114,6 +114,37 @@ public class ScreeningTableDAO {
 		
 		disConnectDB();
 		return screenList;
+	}
+	
+	// 선택한 영화, 영화관, 상영관, 상영 날짜, 상영 시간에 대한 상영표 코드 얻어오기
+	public int getScreeningTableNo(int branchNo, int screenNo, int movieNo, int schNo) {
+		connectDB();
+		String sql = "SELECT screeningtableNo FROM screeningtable WHERE"
+				+ " (movieBranchNo = ?) AND (screenNo = ?) AND (movieNo = ?) AND (schNo = ?)";
+		int screeningTableNo = -1;
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, branchNo);
+			pstmt.setInt(2, screenNo);
+			pstmt.setInt(3, movieNo);
+			pstmt.setInt(4, schNo);
+			rs = pstmt.executeQuery();
+			
+			if(!rs.next()) {
+				return -1;					// 인자롸 받은 정보들에 대한 레코드가 상영표에 존재 x
+			}
+			
+			screeningTableNo = rs.getInt("screeningtableNo");
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+		disConnectDB();
+		return screeningTableNo;
+		
 	}
 	
 	
