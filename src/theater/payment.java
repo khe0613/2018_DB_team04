@@ -2,8 +2,10 @@ package theater;
 import java.sql.*;
 import java.util.Scanner;
 
+import dao.ReservationDAO;
+
 public class payment {
-	String jdbcUrl = "jdbc:mysql://localhost:3306/theater"; 
+	String jdbcUrl = "jdbc:mysql://localhost:3306/theater?useSSL=false"; 
 	String dbId = "parkyoonjung";;
 	String dbPass = "qkrdbswjd";
 	
@@ -23,18 +25,12 @@ public class payment {
 		}
 	}
 	
-	public void paymentStart(String id) throws SQLException, ClassNotFoundException { // id를 인자로 받아옴
+	public void paymentStart(String id){ // id를 인자로 받아옴
+		ReservationDAO reservationdao = new ReservationDAO();
 		Print.printMessage("------------------- 영 화 결 제 -------------------");
 		Print.printMessage("-> 결제하려는 티켓의 예매번호를 입력해주세요.");
 		String resNo = sc.next(); 
-		
-		Class.forName("com.mysql.jdbc.Driver");
-		conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-		sql = "select ispayment from Member where id =?"; // 예매번호의 결제여부 가져오기
-		pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, id);
-		rs = pstmt.executeQuery();
-		Boolean isPayment = rs.getBoolean("isPayment");
+		Boolean isPayment = reservationdao.isPayment(resNo);
 		if(isPayment == false) { // 결제여부확인
 			Print.printMessage("-> 결제 유형을 선택해주세요.");
 			Print.printMessage("1. 인터넷 결제 2. 현장 결제");

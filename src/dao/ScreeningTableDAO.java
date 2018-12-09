@@ -16,10 +16,7 @@ public class ScreeningTableDAO {
 	Connection conn;
 	PreparedStatement pstmt;
 	ResultSet rs;
-	
-	public ScreeningTableDAO(){
-		
-	}
+
 	
 	private void connectDB() {
 		try {
