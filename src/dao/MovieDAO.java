@@ -63,7 +63,7 @@ public class MovieDAO {
 	
 	public String getMovieName(int movieNo) { // 영화 코드에 대한 영화이름 가져오기
 		connectDB();
-		String sql = "SELECT * FROM movie inner join screeningtable on (movie.movieNo = screeningtable.movieNo) where ";
+		String sql = "SELECT * FROM movie";
 		String movieName = " ";
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -80,7 +80,5 @@ public class MovieDAO {
 		disConnectDB();
 		return movieName;
 	}
-	
-	
 	
 }
