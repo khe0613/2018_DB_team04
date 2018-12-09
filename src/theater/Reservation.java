@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Scanner;
 
 import dao.MovieDAO;
+import dao.ScreeningTableDAO;
+import dao.TheaterDAO;
 
 public class Reservation {
 	String id;						// 사용자 아이디
@@ -47,14 +49,19 @@ public class Reservation {
 	private void add() {
 		System.out.println("예매하실 영화를 선택해주세요.");
 		int movieNo = selectMovie();
+		
+		System.out.println("영화관을 선택해주세요.");
+		int branchNo = selectTheater();
+		
+		System.out.println("상영날짜를 선택해주세요.");
+		int movieSchedule = selectDay(movieNo, branchNo);
+		
 	}
 	
 	public void Reservationd(String id)  { // id를 인자로 받아옴
 		
 		/*
-		System.out.println("영화관을 선택해주세요.");
-		int branchNo = selectTheater(movieNo);
-		
+	
 		System.out.println("상영날짜를 선택해주세요.");
 		int movieSchedule = selectDay(movieNo,branchNo);
 		System.out.println("상영관을 선택해주세요.");
@@ -70,53 +77,49 @@ public class Reservation {
 		
 	}
 	
-	public int selectMovie() { // 영화 선택
+	// 영화 선택, 영화 번호 리턴
+	public int selectMovie() { 
 		System.out.println("-----------------상영중인 영화 정보---------------");
 		MovieDAO movieDAO = new MovieDAO();
-		
 		List<String> movieList = movieDAO.getMovieList();
 		
-		System.out.println(movieList);
-		
-		
+		for(String movie: movieList) {
+			System.out.print(movie +"\t");
+		}
 		System.out.println();
 		
-		//String selectMovie = sc.next(); // 영화 선택
-		//sql = "select movieNo from Movie where movieName = ?";
-	//	pstmt = conn.prepareStatement(sql);
-	//	pstmt.setString(1, selectMovie);
-	//	rs = pstmt.executeQuery();
-	//	return rs.getInt("movieNo");
-		return 1;
+		Scanner sc = new Scanner(System.in);
+		int movieNumber = sc.nextInt();
+		
+		return movieNumber;
 	}
 
-	public int selectTheater(int movieNo) throws ClassNotFoundException, SQLException { // 영화관 선택
+	 // 영화관 선택
+	public int selectTheater() {
 		System.out.println("-----------------영화가 상영중인 지점---------------");
+		TheaterDAO theaterDAO = new TheaterDAO();
+		List<String> theaterList = theaterDAO.getTheaterList();
 		
-		
-		/*
-		sql = "select theater.branchName from theater inner join ScreeningTable on (theater.branchNo = ScreeningTable.movieBranchNo) where = ?"; 
-		pstmt = conn.prepareStatement(sql);
-		pstmt.setInt(1, movieNo);
-		rs = pstmt.executeQuery();
-		while(rs.next()) { // 상영 지점 출력
-			System.out.println(rs.getString("branchName") + "/t");
+		for(String theater : theaterList) {
+			System.out.print(theater + "\t");
 		}
-		String selectTherter = sc.next();
-		sql = "select branchNo from theater where branchName = ?";
-		pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, selectTherter);
-		rs = pstmt.executeQuery();
+		System.out.println();
 		
-		return rs.getInt("branchNo");
-		*/
-		return 0;
+		Scanner sc = new Scanner(System.in);
+		int theaterNumber = sc.nextInt();
+		
+		return theaterNumber;
 	}
 	
 	
-	
-	public int selectDay(int movieNo, int branchNo) throws ClassNotFoundException, SQLException { // 상영 날짜 선택
+	// 상영 날짜 선택
+	public int selectDay(int movieNo, int branchNo) { 
 		System.out.println("-----------------선택한 지점과 영화에 대한 상영 날짜---------------");
+		ScreeningTableDAO screeningTableDAO = new ScreeningTableDAO();
+		
+		List<Integer> scheduleCodeList = screeningTableDAO.getScheduleCodeList(movieNo, branchNo);
+		
+		
 		
 	//	sql = "";	// 날짜 선택하기
 
