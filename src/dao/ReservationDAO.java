@@ -62,28 +62,37 @@ public class ReservationDAO {
 		return chart;
 	}
 	
-	public boolean isPayment(String resNo) { // 결제여부를 판단함
+	public String isPayment(String resNo) { // 결제여부를 판단함
 		connectDB();
-		String sql = "select ispayment from Member where id =?"; // 예매번호의 결제여부 가져오기
-		pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, id);
-		rs = pstmt.executeQuery();
-		Boolean isPayment = rs.getBoolean("ispayment");
-		if(isPayment == false) { // 결제여부확인
-			Print.printMessage("-> 결제 유형을 선택해주세요.");
-			Print.printMessage("1. 인터넷 결제 2. 현장 결제");
-			int paymentType = sc.nextInt();
-			if(paymentType == 1) { // 인터넷 결제
-				Print.printMessage("-------------- 인 터 넷 결 제 --------------");
-				InternetPayment(id,resNo);
-			}else { // 현장 결제
-				System.out.println("!! 현장에서 관리자에게 결제해주세요.");
-			}			
-		}else if(isPayment == null){
-			System.out.println("존재하지 않는 예매번호입니다.");
-		}else {
-			System.out.println("!! 이미 결제가 완료된 티켓입니다.");
+		String sql = "select ispayment from reservation where resNo =?"; // 예매번호의 결제여부 가져오기
+		String check = null;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, resNo);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				check = rs.getString("ispayment");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		disConnectDB();
+		return check;
+	}
+	
+	public boolean EndPayment(String resNo) { // 결제여부를 true로 변환
+		connectDB();
+		String sql = "update reservation set ispayment = ? where resNo =?"; // 예매번호의 결제여부 가져오기
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "true");
+			pstmt.setString(2, resNo);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		disConnectDB();
+		return true;
 	}
 }
