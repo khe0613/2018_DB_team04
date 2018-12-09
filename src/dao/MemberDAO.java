@@ -139,8 +139,8 @@ public class MemberDAO {
 	
 	//회원 정보 수정
 	public boolean modifyMember(String id, String pw, String name, String birth, String address, String phoneNum) {
-		String sql = "UPDATE member SET  pw = ?, name = ?, birth = ?, address = ?, phoneNum = ? WHERE id = ?";
-		boolean not_error_flag = false;											//	회원정보 수정 중 에러발생 여부
+		String sql = "UPDATE member SET pw = ?, name = ?, birth = ?, address = ?, phoneNum = ? WHERE id = ?";
+		boolean not_error_flag = false;												//	회원정보 수정 중 에러발생 여부
 		
 		try {
 			pstmt = conn.prepareStatement(sql);

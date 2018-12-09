@@ -21,10 +21,15 @@ public class Reservation {
 	Scanner sc = new Scanner(System.in);
 
 	public Reservation(String id) throws SQLException, ClassNotFoundException { // id를 인자로 받아옴
+		Class.forName("com.mysql.jdbc.Driver");
+		conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
+		
 		System.out.println("예매하실 영화를 선택해주세요.");
 		int movieNo = selectMovie();
+		
 		System.out.println("영화관을 선택해주세요.");
-		int branchNo = selectTherter(movieNo);
+		int branchNo = selectTheater(movieNo);
+		
 		System.out.println("상영날짜를 선택해주세요.");
 		int movieSchedule = selectDay(movieNo,branchNo);
 		System.out.println("상영관을 선택해주세요.");
@@ -42,16 +47,18 @@ public class Reservation {
 	
 	public int selectMovie() throws ClassNotFoundException, SQLException { // 영화 선택
 		System.out.println("-----------------상영중인 영화 정보---------------");
-		sql = "select Movie.movieName from Movie inner join listScreenToBranch on (Movie.movieNo = listScreenToBranch.movieNo)"; 
+		sql = "select Movie.movieName from Movie inner join ScreeningTable on (Movie.movieNo = ScreeningTable.movieNo)"; 
 		pstmt = conn.prepareStatement(sql);
 		rs = pstmt.executeQuery();			
 		while(rs.next()) { // 상영 영화 이름 출력
 			ArrayList<String> movieName = new ArrayList<String>();
 			if(!movieName.contains(rs.getString("movieName"))) {
 				movieName.add(rs.getString("movieName"));
-				System.out.println(rs.getString("movieName")+"/t");
+				System.out.print(rs.getString("movieName")+"/t");
 			} // 영화이름이 리스트에 없다면 추가	
 		}
+		System.out.println();
+		
 		String selectMovie = sc.next(); // 영화 선택
 		sql = "select movieNo from Movie where movieName = ?";
 		pstmt = conn.prepareStatement(sql);
@@ -60,11 +67,10 @@ public class Reservation {
 		return rs.getInt("movieNo");
 	}
 
-	public int selectTherter(int movieNo) throws ClassNotFoundException, SQLException { // 영화관 선택
+	public int selectTheater(int movieNo) throws ClassNotFoundException, SQLException { // 영화관 선택
 		System.out.println("-----------------영화가 상영중인 지점---------------");
-		Class.forName("com.mysql.jdbc.Driver");
-		conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-		sql = "select theater.branchName from theater inner join listScreenToBranch on (theater.branchNo = listScreenToBranch.movieBranchNo) where = ?"; 
+		
+		sql = "select theater.branchName from theater inner join ScreeningTable on (theater.branchNo = ScreeningTable.movieBranchNo) where = ?"; 
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setInt(1, movieNo);
 		rs = pstmt.executeQuery();
@@ -79,9 +85,12 @@ public class Reservation {
 		return rs.getInt("branchNo");
 	}
 	
+	
+	
 	public int selectDay(int movieNo, int branchNo) throws ClassNotFoundException, SQLException { // 상영 날짜 선택
 		System.out.println("-----------------선택한 지점과 영화에 대한 상영 날짜---------------");
-
+		
+		sql = "";	// 날짜 선택하기
 
 		return 0;
 	}
