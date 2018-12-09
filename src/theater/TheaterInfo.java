@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import dao.TheaterInfoDAO;
 
+
 // 영화관정보관리
 public class TheaterInfo {
    private int branchNo;
