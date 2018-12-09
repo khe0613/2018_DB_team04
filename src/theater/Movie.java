@@ -31,7 +31,7 @@ public class Movie {
 	}
 
 	public enum AdminMenu {
-		영화정보관리, 영화관정보관리, 상영영화정보관리, 상영관정보관리, VIP고객관리, 영화티켓발행, 다시입력하세요;
+		영화정보관리, 영화관정보관리, 상영관정보관리, 상영영화정보관리, VIP고객관리, 영화티켓발행, 다시입력하세요;
 
 		static AdminMenu got(String ch) {
 			switch (ch) {
@@ -40,9 +40,9 @@ public class Movie {
 			case "2":
 				return 영화관정보관리;
 			case "3":
-				return 상영영화정보관리;
-			case "4":
 				return 상영관정보관리;
+			case "4":
+				return 상영영화정보관리;
 			case "5":
 				return VIP고객관리;
 			case "6":
@@ -90,8 +90,8 @@ public class Movie {
 			Print.printMessage("1: 회원정보관리    2: 영화정보검색    3: 영화예약    4: 영화결제");
 		}
 		if (isAdmin) {
-			Print.printMessage("1: 영화정보관리    2: 영화관정보관리   3: 상영영화정보관리  ");
-			Print.printMessage("4: 상영관정보관리  5: VIP 고객관리  6: 영화티켓발행  ");
+			Print.printMessage("1: 영화정보관리    2: 영화관정보관리  4: 상영관정보관리  ");
+			Print.printMessage("4: 상영영화정보관리  5: VIP 고객관리  6: 영화티켓발행  ");
 		}
 	}
 
@@ -141,7 +141,6 @@ public class Movie {
 				setLogin(true);
 			}
 		
-			// Print.printMessage("회원가입 기능");
 		}
 	}
 

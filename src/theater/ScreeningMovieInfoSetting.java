@@ -59,7 +59,7 @@ public class ScreeningMovieInfoSetting {
 			addScreeningMovieInfo();
 
 			// 성공
-			if (new ScreeningMovieInfoSettingDAO().addScreeningMovieInfoSQL(getMovieNo(),getScreenNo(), getMovieBranchNo(),getSchNo())) {
+			if (new ScreeningMovieInfoSettingDAO().addScreeningMovieInfoSQL(getMovieBranchNo(),getScreenNo(),getMovieNo(),getSchNo())) {
 				Print.printMessage("!! 영화정보 등록 성공");
 			} else {
 				Print.printMessage("!! 영화정보 등록 실패");
@@ -68,7 +68,7 @@ public class ScreeningMovieInfoSetting {
 		case "2":
 			Print.printMessage("-> 상영영화정보 삭제");
 			deleteScreeningMovieInfo();
-			if (new ScreeningMovieInfoSettingDAO().deleteScreeningMovieInfoSQL(getMovieNo(), getMovieBranchNo())) {
+			if (new ScreeningMovieInfoSettingDAO().deleteScreeningMovieInfoSQL(getMovieBranchNo(),getScreenNo(),getMovieNo(),getSchNo())) {
 				Print.printMessage("!! 영화정보 삭제 성공");
 			} else {
 				Print.printMessage("!! 영화정보 삭제 실패");
@@ -81,24 +81,24 @@ public class ScreeningMovieInfoSetting {
 	}
 
 	private void deleteScreeningMovieInfo() {
-		Print.printMessage("-> 영화 정보를 삭제하려는 영화관 지점의 코드를  입력하세요.");
+		Print.printMessage("-> 상영 영화 정보를 삭제하려는 영화관 지점의 코드를  입력하세요.");
 		setMovieBranchNo(sc.nextInt());
-		Print.printMessage("-> 영화 정보를 삭제하려는 상영관의 코드를 입력하세요.");
+		Print.printMessage("-> 상영 영화 정보를 삭제하려는 상영관의 코드를 입력하세요.");
 		setScreenNo(sc.nextInt());
-		Print.printMessage("-> 영화 정보를 삭제할 영화코드를 입력하세요.");
+		Print.printMessage("-> 상영 영화 정보를 삭제할 영화코드를 입력하세요.");
 		setMovieNo(sc.nextInt());
-		Print.printMessage("-> 영화 정보를 삭제할 일정 코드를 입력하세요.");
+		Print.printMessage("-> 상영 영화 정보를 삭제할 일정 코드를 입력하세요.");
 		setSchNo(sc.nextInt());
 	}
 
 	private void addScreeningMovieInfo() {
-		Print.printMessage("-> 영화 정보를 입력하려는 영화관 지점의 코드를  입력하세요.");
+		Print.printMessage("-> 상영 영화 정보를 입력하려는 영화관 지점의 코드를  입력하세요.");
 		setMovieBranchNo(sc.nextInt());
-		Print.printMessage("-> 영화 정보를 입력하려는 상영관의 코드를 입력하세요.");
+		Print.printMessage("-> 상영 영화 정보를 입력하려는 상영관의 코드를 입력하세요.");
 		setScreenNo(sc.nextInt());
-		Print.printMessage("-> 영화 정보가 담긴 영화코드를 입력하세요.");
+		Print.printMessage("-> 상영 영화 정보가 담긴 영화코드를 입력하세요.");
 		setMovieNo(sc.nextInt());
-		Print.printMessage("-> 영화 정보를 입력할 일정 코드를 입력하세요.");
+		Print.printMessage("-> 상영 영화 정보를 입력할 일정 코드를 입력하세요.");
 		setSchNo(sc.nextInt());
 	}
 }
