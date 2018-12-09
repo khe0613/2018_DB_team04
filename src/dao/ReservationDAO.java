@@ -80,6 +80,25 @@ public class ReservationDAO {
 		return check;
 	}
 	
+	
+	public String isPaymentID(String id) { // 아이디로 결제여부를 판단함
+		connectDB();
+		String ispayment = null;
+		String sql = "select ispayment from reservation where id =?"; // 아이디의 결제여부 가져오기
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		disConnectDB();
+		return ispayment;
+	}
+	
 	public boolean EndPayment(String resNo) { // 결제여부를 true로 변환
 		connectDB();
 		String sql = "update reservation set ispayment = ? where resNo =?"; // 예매번호의 결제여부 가져오기
