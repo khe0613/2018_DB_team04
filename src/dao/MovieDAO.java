@@ -47,10 +47,12 @@ public class MovieDAO {
 			
 			if (!rs.next()) {
 				return movieList;	// 상영중인 영화 없으면 빈 리스트 리턴
-			}else {
+			}
+			
+			do {
 				String movie = rs.getInt("movieNO") + ". " + rs.getString("movieName");
 				movieList.add(movie);
-			}
+			}while(rs.next());
 			
 		} catch (SQLException e) {
 			
