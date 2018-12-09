@@ -193,6 +193,7 @@ public class Movie {
 			break;
 		case VIP绊按包府:
 			Print.printMessage(menu);
+			new VIPSearch().start();
 			break;
 		case 康拳萍南惯青:
 			Print.printMessage(menu);
