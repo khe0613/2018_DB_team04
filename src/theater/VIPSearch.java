@@ -34,14 +34,19 @@ public class VIPSearch {
 	}
 	
 	/* 해당 String 문자열 내부에 숫자가 존재하는지 체크 */
-	public static boolean isNotIncludeNumber(String string) {
+	public static boolean isNumber(String string) {
 		for(int i = 0 ; i < string.length(); i ++)
 	    {    
 	        // 48 ~ 57은 아스키 코드로 0~9이다.
 	        if(!(48 <= string.charAt(i) && string.charAt(i) <= 57))
-	            return true;
+	            return false;
 	    }
-		return false;
+		return true;
+	}
+	
+	/* 날짜 입력 시 6자리 체크 */
+	private static boolean isLength(String string) {
+		return string.length() == 6;
 	}
 	
 	/* 시작 */
@@ -52,17 +57,18 @@ public class VIPSearch {
 		Scanner sc = new Scanner(System.in);
 		String startTime = sc.next();
 		// 문자가 포함되는 예외처리
-		if(isNotIncludeNumber(startTime)) {
+		if(!(isNumber(startTime)) || !(isLength(startTime))) {
 			start();
 			return;
 		}
 		Print.printMessage("-> 검색하려는 기간의 종료 날짜를 입력하세요.");
 		String endTime = sc.next();
 		// 문자가 포함되는 예외처리
-		if(isNotIncludeNumber(endTime)) {
+		if(!(isNumber(endTime)) || !(isLength(endTime))) {
 			start();
 			return;
 		}
+		
 		VIPDAO vipdao = new VIPDAO();
 		ArrayList<VIPSearch> result = vipdao.getReservationList(startTime, endTime); // 예약 테이블에 저장된 정보 가져오기
 		if(result != null) {
