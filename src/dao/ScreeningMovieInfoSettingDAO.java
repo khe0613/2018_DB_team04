@@ -30,33 +30,26 @@ public class ScreeningMovieInfoSettingDAO {
 	}
 	
 	/* 상영 영화 정보 등록 */
-	public boolean addScreeningMovieInfoSQL(int movieBranchNo, int movieNo) {
+	public boolean addScreeningMovieInfoSQL(int movieBranchNo, int screenNo, int movieNo, int schNo) {
 		
 		try {
-			String SQL = "INSERT INTO listScreenToBranch (movieBranchNo, movieNo)"
-					+ " VALUES (?, ?)";
+			String SQL = "INSERT INTO screeningtable (movieBranchNo, screenNo, movieNo, schNo)"
+					+ " VALUES (?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, movieBranchNo);
-			pstmt.setInt(2, movieNo);
-		    int result = pstmt.executeUpdate(); // 성공 결과를 모르겠음
+			pstmt.setInt(2, screenNo);
+			pstmt.setInt(3, movieNo);
+			pstmt.setInt(4, schNo);
+		    pstmt.executeUpdate(); 
 		    
-		    // 한 행만 영향을 받으므로?
-		    /*
-		    if(result == 1) {
-		    	Print.printMessage("result 1");
-		    	return true;
-		    }
-		    */
-		    
-		    Print.printMessage("result " + result);
-		    return true;
 		}catch(Exception e) {
 		      e.printStackTrace();
+		      return false;
 		}finally {
 		      if(pstmt != null) try{pstmt.close();}catch(SQLException sqle){}
 		      if(conn != null) try{conn.close();}catch(SQLException sqle){}
 		}
-		return false;
+		return true;
 	}
 	
 	/* 상영 영화 정보 삭제 */
@@ -69,17 +62,8 @@ public class ScreeningMovieInfoSettingDAO {
 			pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, movieBranchNo);
 			pstmt.setInt(2, movieNo);
-		    int result = pstmt.executeUpdate(); // 성공 결과를 모르겠음
-		    
-		    // 한 행만 영향을 받으므로?
-		    /*
-		    if(result == 1) {
-		    	Print.printMessage("result 1");
-		    	return true;
-		    }
-		    */
-		    
-		    Print.printMessage("result " + result);
+		    pstmt.executeUpdate(); 
+
 		    return true;
 		}catch(Exception e) {
 		      e.printStackTrace();

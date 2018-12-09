@@ -16,13 +16,9 @@ public class ScreenDAO {
 	String dbId;
 	String dbPass;
 	
-	Connection conn;
-	PreparedStatement pstmt;
-	ResultSet rs;
-	
-	public ScreenDAO() {
-		connectDB();
-	}
+	Connection conn=null;
+	PreparedStatement pstmt=null;
+	ResultSet rs=null;
 	
 	// DB 연결 connect
 	private void connectDB() {
@@ -45,75 +41,80 @@ public class ScreenDAO {
 		if(conn != null) try{conn.close();}catch(SQLException sqle){}
 	}
 	
-	
+	// 상영관 수 얻어오기
+		public int getScreenNum(int branchNo) {
+			connectDB();
+			String sql = "select count(*) from screen where branchNo = ?";
+			int screenNum = 0;
+			try { // 어떤 지점에 대한 상영관 수
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, branchNo);
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					screenNum = rs.getInt(1);					
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return 0;
+			}
+			disconnectDB();
+			return screenNum;
+		}
+		
 	// 상영관 등록
 	public boolean registerScreen(Screen screen) {
-		String sql = "INSERT INTO screen (screenNo, branchNo, schNo, totalSeatNum, leftSeatNum) values (?, ?, ?, ?, ?)";
-		boolean not_error_flag = true;
+		connectDB();
+		String sql = "INSERT INTO screen values (?, ?, ?)";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			
 			pstmt.setInt(1, screen.getScreenNo());
 			pstmt.setInt(2, screen.getBranchNo());
-			pstmt.setInt(3, screen.getScheduleCode());
-			pstmt.setInt(4, screen.getTotalSeatNum());
-			pstmt.setInt(5, screen.getLeftSeatNum());
-			pstmt.executeUpdate();
-			
-			
+			pstmt.setInt(3, screen.getTotalseatNum());
+			pstmt.executeUpdate();		
 		} catch (SQLException e) {
 			e.printStackTrace();
-			not_error_flag = false;
+			return false;
 		}
-		
-		return not_error_flag;
+		disconnectDB();
+		return true;
 	}
 	
 	// 상영관 삭제
-	public boolean removeScreen(int screenNo, int branchNo) {
-		String sql = "DELETE FROM screen WHERE (screenNo = ?) and (branchNo = ?)";
-		boolean not_error_flag = true;
-		
+	public boolean removeScreen(int branchNo, int screenNo) {
+		connectDB();
+		String sql = "DELETE FROM screen WHERE (branchNo = ?) and (screenNo = ?)";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setInt(1, screenNo);
-			pstmt.setInt(2, branchNo);
+			pstmt.setInt(1, branchNo);
+			pstmt.setInt(2, screenNo);
 			pstmt.executeUpdate();
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
-			not_error_flag = false;
+			return false;
 		}
-		
-		
-		return not_error_flag;
+		disconnectDB();
+		return true;
 	}
 	
 	// 상영관 수정
 	public boolean modifyScreen(Screen screen) {
-		String sql = "UPDATE screen SET screenNo = ?, branchNo = ?, schNo = ?,"
-				    + "totalSeatNum = ?, leftSeatNum = ?";
-		boolean not_error_flag = true;
-		
+		connectDB();
+		String sql = "UPDATE screen SET totalSeatNum = ? where screenNo = ? and branchNo = ?";
+
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, screen.getScreenNo());
-			pstmt.setInt(2, screen.getBranchNo());
-			pstmt.setInt(3, screen.getScheduleCode());
-			pstmt.setInt(4, screen.getTotalSeatNum());
-			pstmt.setInt(5, screen.getLeftSeatNum());
-			
+			pstmt.setInt(1, screen.getTotalseatNum());
+			pstmt.setInt(2, screen.getScreenNo());
+			pstmt.setInt(3, screen.getBranchNo());
 			pstmt.executeUpdate();
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
-			not_error_flag = false;
+			return false;
 		}
-		
-		return not_error_flag;
+		disconnectDB();
+		return true;
 	}
 	
 }

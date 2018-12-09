@@ -8,9 +8,7 @@ import dao.ScreenDAO;
 public class Screen {
 	private int screenNo;		// 상영관 코드
 	private int branchNo;		// 지점 코드
-	private int scheduleCode;	// 일정코드
 	private int totalSeatNum; 	// 전체좌석수
-	private int leftSeatNum;	// 잔여석
 	
 	public Screen() {
 		
@@ -19,22 +17,29 @@ public class Screen {
 	public int getScreenNo() {
 		return screenNo;
 	}
-	
-	public int getBranchNo() {
-		return this.branchNo;
-	}
-	
-	public int getScheduleCode() {
-		return this.scheduleCode;
-	}
-	
 
-	public int getTotalSeatNum() {
+
+	public void setScreenNo(int screenNo) {
+		this.screenNo = screenNo;
+	}
+
+
+	public int getBranchNo() {
+		return branchNo;
+	}
+
+
+	public void setBranchNo(int branchNo) {
+		this.branchNo = branchNo;
+	}
+	
+	public int getTotalseatNum() {
 		return totalSeatNum;
 	}
-	
-	public int getLeftSeatNum() {
-		return leftSeatNum;
+
+
+	public void setTotalseatNum(int totalSeatNum) {
+		this.totalSeatNum = totalSeatNum;
 	}
 	
 	public void start() {
@@ -44,108 +49,93 @@ public class Screen {
 		Scanner sc = new Scanner(System.in);
 		String menu = sc.next();
 		
-		int branchno, screenno;
 		switch(menu) {
 		case "1":
-			Print.printMessage("-> 원하시는 screenNo를 입력하세요.");
-			screenno = sc.nextInt();
-			Print.printMessage("-> 원하시는 branchNo를 입력하세요.");
-			branchno = sc.nextInt();
-			if(registerScreen(screenno, branchno)) 
+			Print.printMessage("-> 등록하려는 지점코드를 입력하세요.");
+			setBranchNo(sc.nextInt());
+			Print.printMessage("-> 원하시는 이 상영관의 전체 좌석 수를 입력하세요.");
+			setTotalseatNum(sc.nextInt());
+			if(registerScreen(branchNo,totalSeatNum)) 
 				Print.printMessage("!! 상영관 등록이 성공하였습니다.");
 			else
 				Print.printMessage("!! 상영관 등록이 실패하였습니다.");
 			break;
 		case "2":
-			Print.printMessage("-> 원하시는 screenNo를 입력하세요.");
-			screenno = sc.nextInt();
-			Print.printMessage("-> 원하시는 branchNo를 입력하세요.");
-			branchno = sc.nextInt();
-			if(removeScreen(screenno, branchno)) 
+			Print.printMessage("-> 삭제하려는 지점코드를 입력하세요.");
+			setBranchNo(sc.nextInt()); 
+			Print.printMessage("-> 삭제하려는 상영관코드를 입력하세요.");
+			setScreenNo(sc.nextInt());
+			if(removeScreen(branchNo,screenNo)) 
 				Print.printMessage("!! 상영관 삭제가 성공하였습니다.");
 			else
 				Print.printMessage("!! 상영관 삭제가 실패하였습니다.");
 			break;
 		case "3":
-			
+			Print.printMessage("-> 수정하려는 지점코드를 입력하세요.");
+			setBranchNo(sc.nextInt()); 
+			Print.printMessage("-> 수정하려는 상영관코드를 입력하세요.");
+			setScreenNo(sc.nextInt());
+			Print.printMessage("-> 수정하려는 전체 좌석 수를 입력하세요.");
+			setTotalseatNum(sc.nextInt());
+			if(modifyScreen(screenNo,branchNo,totalSeatNum)) 
+				Print.printMessage("!! 상영관 수정이 성공하였습니다.");
+			else
+ 				Print.printMessage("!! 상영관 수정이 실패하였습니다.");
 			break;
-			default:
-				break;
+		default:
+			break;
 		}
 	}
 	
 	// 상영관 등록
-	public boolean registerScreen(int screenNo, int branchNo) {
+	public boolean registerScreen(int branchNo, int totalSeatNum) {
 		ScreenDAO screenDAO = new ScreenDAO();
-		Scanner sc = new Scanner(System.in);
-		boolean success;
 		
 		System.out.println("---------------- 상영관 등록 ----------------");
-		this.screenNo = screenNo;
-		this.branchNo = branchNo;
-		System.out.print("전체좌석수 : ");	this.totalSeatNum = sc.nextInt();
-		this.leftSeatNum = this.totalSeatNum;
-		
+		this.setScreenNo(screenDAO.getScreenNum(branchNo)+1); // dao에서  함수 호출하여 불러온거에 +1해준 것
+		this.setBranchNo(branchNo);
+		this.setTotalseatNum(totalSeatNum);
 		
 		if(screenDAO.registerScreen(this)) {
 			System.out.println("상영관 등록에 성공하셨습니다.");
-			success = true;
+			return true;
 		}else {
 			System.out.println("상영관 등록에 실패하셨습니다.");
-			success = false;
+			return false;
 		}
-		
-		screenDAO.disconnectDB();
-		return success;
 	}
 	
 	// 상영관 삭제
-	public boolean removeScreen(int screenNo, int branchNo) {
+	public boolean removeScreen(int branchNo, int screenNo) {
 		ScreenDAO screenDAO = new ScreenDAO();
-		boolean success;
 		
 		System.out.println("---------------- 상영관 삭제 ----------------");
-		if(screenDAO.removeScreen(screenNo, branchNo)) {
+		if(screenDAO.removeScreen(branchNo,screenNo)) {
 			System.out.println("상영관 삭제에 성공하셨습니다.");
-			success = true;
+			return true;
 		}else {
 			System.out.println("상영관 삭제에 실패하셨습니다..");
-			success = false;
+			return false;
 		}
-		
-		screenDAO.disconnectDB();
-		
-		return success;
 	}
 	
 	// 상영관 수정
-	public boolean modifyScreen(Screen screen) {
+	public boolean modifyScreen(int screenNo, int branchNo, int totalSeatNum) {
 		ScreenDAO screenDAO = new ScreenDAO();
-		boolean success;
 		
 		System.out.println("---------------- 상영관 수정 ----------------");
-		if(screenDAO.modifyScreen(screen)) {
-			this.screenNo = screen.getScreenNo();
-			this.branchNo = screen.getBranchNo();
-			this.scheduleCode = screen.getScheduleCode();
-			this.totalSeatNum = screen.getTotalSeatNum();
-			this.leftSeatNum =  screen.getLeftSeatNum();
-			
+		this.setScreenNo(screenNo);
+		this.setBranchNo(branchNo);
+		this.setTotalseatNum(totalSeatNum);
+		
+		if(screenDAO.modifyScreen(this)) {
 			System.out.println("상영관 수정에 성공하셨습니다.");
-			success = true;
+			return true;
 		}else {
 			System.out.println("상영관 수정에 실패하셨습니다.");
-			success = false;
+			return false;
 		}
-		
-		return success;
 	}
-	
 
-	
-	
-	
-	
-	
 	
 }
