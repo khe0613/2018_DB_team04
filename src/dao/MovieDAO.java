@@ -65,16 +65,16 @@ public class MovieDAO {
 	
 	public String getMovieName(int movieNo) { // 영화 코드에 대한 영화이름 가져오기
 		connectDB();
-		String sql = "SELECT * FROM movie";
-		String movieName = " ";
+		String sql = "SELECT * FROM movie where movieNo = ?";
+		String movieName = null;
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, movieNo);
 			rs = pstmt.executeQuery();
-			if(!rs.next()) { // 영화 정보가 없으면
-				return null;
-			}else {
-				movieName = rs.getString("movieName");
+			while(rs.next()) {
+				if(rs.getString("movieName") != null) {
+					movieName = rs.getString("movieName");
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -90,7 +90,7 @@ public class Movie {
 			Print.printMessage("1: 회원정보관리    2: 영화정보검색    3: 영화예약    4: 영화결제");
 		}
 		if (isAdmin) {
-			Print.printMessage("1: 영화정보관리    2: 영화관정보관리  4: 상영관정보관리  ");
+			Print.printMessage("1: 영화정보관리    2: 영화관정보관리  3: 상영관정보관리  ");
 			Print.printMessage("4: 상영영화정보관리  5: VIP 고객관리  6: 영화티켓발행  ");
 		}
 	}

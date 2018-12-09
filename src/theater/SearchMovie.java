@@ -8,6 +8,7 @@ import java.util.List;
 
 import dao.MovieDAO;
 import dao.ReservationDAO;
+import dao.ScreeningTableDAO;
 
 public class SearchMovie {
 
@@ -15,12 +16,15 @@ public class SearchMovie {
 		List<Integer> keySet = new ArrayList<>();
 		ReservationDAO reservationdao = new ReservationDAO();
 		MovieDAO movie = new MovieDAO();
+		ScreeningTableDAO screeingtabledao = new ScreeningTableDAO();
 		HashMap<Integer, Integer> chart = reservationdao.getMovieChart();
 		keySet = sortByValue(chart);
 		int rank = 1;
 		for(int i : keySet) {
+			if(screeingtabledao.isScreening(i)) {
 			System.out.println("영화 차트 "+rank+"위 : " +movie.getMovieName(i) + "  /  예매 횟수 : "+ chart.get(i));
 			rank++;
+			}
 		}
 		System.out.println();
 	}

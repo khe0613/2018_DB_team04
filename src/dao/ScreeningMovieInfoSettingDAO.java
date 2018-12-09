@@ -20,7 +20,7 @@ public class ScreeningMovieInfoSettingDAO {
 	
 	// DB ¿¬°á connect
 	private void connectDB() {
-		this.jdbcUrl = "jdbc:mysql://localhost:3306/theater";
+		this.jdbcUrl = "jdbc:mysql://localhost:3306/theater?useSSL=false";
 		this.dbId = "parkyoonjung";
 		this.dbPass = "qkrdbswjd";
 		

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ScreeningTableDAO {
-	String jdbcUrl = "jdbc:mysql://localhost:3306/theater";
+	String jdbcUrl = "jdbc:mysql://localhost:3306/theater?useSSL=false";
 	String dbId = "parkyoonjung";;
 	String dbPass = "qkrdbswjd";
 
@@ -68,4 +68,23 @@ public class ScreeningTableDAO {
 		return scheduleCodeList;
 	}
 	
+	public boolean isScreening(int movieNo){ // 현재 상영중인지 체크
+		connectDB();
+		String sql = "SELECT * FROM screeningTable WHERE movieNo = ?";
+		
+		try {
+			pstmt  = conn.prepareStatement(sql);
+			pstmt.setInt(1, movieNo);
+			rs = pstmt.executeQuery();
+			
+			if(!rs.next()) {				// 상영표에 영화가 없음
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		disConnectDB();
+		return true;
+	}
 }
