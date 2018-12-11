@@ -17,16 +17,7 @@ public class payment {
 	
 	Scanner sc = new Scanner(System.in);
 	
-	public void start(String id) {
-		try {
-			paymentStart(id);
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void paymentStart(String id){ // id를 인자로 받아옴
+	public void Start(String id){ // id를 인자로 받아옴
 		ReservationDAO reservationdao = new ReservationDAO();
 		Print.printMessage("------------------- 영 화 결 제 -------------------");
 		Print.printMessage("-> 결제하려는 티켓의 예매번호를 입력해주세요.");

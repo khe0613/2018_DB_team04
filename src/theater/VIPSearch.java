@@ -3,6 +3,7 @@ package theater;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
 
 import dao.VIPDAO;
@@ -80,7 +81,7 @@ public class VIPSearch {
 	public void vipResearch(ArrayList<VIPSearch> arrayList) {
 		Print.printMessage("-> DB 접속 완료! 결과를 출력합니다.");
 		hashmap = vipSortByID(arrayList);
-		SearchMovie.sortByValue(hashmap);
+		List<String> keySet = SearchMovie.sortByValue(hashmap);
 		Print.printMessage("-> 결과를 몇 등 까지 표시합니까 ?");
 		Scanner sc = new Scanner(System.in);
 		int count = sc.nextInt();
@@ -95,11 +96,11 @@ public class VIPSearch {
 			Print.printMessage("-> 전체 등수를 출력합니다.");
 			count = hashmap.size();
 		}
-		
+
 		// 해당 등수까지 출력
-		Iterator<String> keys = hashmap.keySet().iterator(); // 이터레이터 사용
+		Iterator<String> keys = keySet.iterator(); // 이터레이터 사용
 		
-		for(int i = 0; i < count; i++) {
+		for(int i = 1; i <= count; i++) {
 			String key = keys.next();
 			Print.printMessage("등수	아이디	예약횟수");
 			Print.printMessage(i+"등	" + key + "	" + hashmap.get(key));
@@ -112,7 +113,7 @@ public class VIPSearch {
 		HashMap<String, Integer> result = new HashMap<>();
 		int i = 0;
 		// 예약 테이블에 존재하던 모든 예약 정보의 id값을 가져와 HashMap에 담고, 카운트를 셈.
-		while(temp.get(i) != null) {
+		while(i<temp.size() && temp.get(i)!=null) {
 			VIPSearch search = temp.get(i);
 			if(result.containsKey(search.getMemberID())) { // 만약 id값이 이미 들어와있는 경우
 				int a = result.get(search.getMemberID()) + 1;

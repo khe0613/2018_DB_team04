@@ -160,7 +160,7 @@ public class Movie {
 			break;
 		case 영화결제:
 			Print.printMessage(menu);
-			new payment().start(member.getId());
+			new payment().Start(member.getId());
 			break;
 		default:
 			Print.printMessage(menu);
@@ -197,6 +197,7 @@ public class Movie {
 			break;
 		case 영화티켓발행:
 			Print.printMessage(menu);
+			new Ticketing().start();
 			break;
 		default:
 			Print.printMessage(menu);
