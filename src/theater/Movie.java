@@ -197,7 +197,7 @@ public class Movie {
 			break;
 		case 영화티켓발행:
 			Print.printMessage(menu);
-			
+			new Ticketing().start();
 			break;
 		default:
 			Print.printMessage(menu);

@@ -9,10 +9,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import theater.Print;
+import theater.Reservation;
 
 // 영화 예약 DAO
 public class ReservationDAO {
+	List<Reservation> resList;
+	
 	String jdbcUrl = "jdbc:mysql://localhost:3306/theater?useSSL=false";
 	String dbId = "parkyoonjung";;
 	String dbPass = "qkrdbswjd";
@@ -80,25 +82,6 @@ public class ReservationDAO {
 		return check;
 	}
 	
-	
-	public String isPaymentID(String id) { // 아이디로 결제여부를 판단함
-		connectDB();
-		String ispayment = null;
-		String sql = "select ispayment from reservation where id =?"; // 아이디의 결제여부 가져오기
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, id);
-			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		disConnectDB();
-		return ispayment;
-	}
-	
 	public boolean EndPayment(String resNo) { // 결제여부를 true로 변환
 		connectDB();
 		String sql = "update reservation set ispayment = ? where resNo =?"; // 예매번호의 결제여부 가져오기
@@ -113,5 +96,33 @@ public class ReservationDAO {
 		}
 		disConnectDB();
 		return true;
+	}
+	
+	public List<Reservation> getPaymentListOfID(String id){
+		 connectDB();
+		 String sql = "select * from reservation where memberId =?"; // 아이디로 예매내역 가져오기
+		 resList = new ArrayList<>();
+			try {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, id);
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+				Reservation res = new Reservation(id);
+				res.setResNo(rs.getInt("resNo"));
+				res.setPayNo(rs.getInt("payNo"));
+				res.setMovieNo(rs.getInt("movieNo"));
+				res.setMovieSchedule(rs.getInt("movieSchedule"));
+				res.setBookingTime(rs.getString("bookingTime"));
+				res.setBookingDay(rs.getString("bookingDay"));
+				res.setScreenNum(rs.getInt("screenNum"));
+				res.setPrice(rs.getInt("price"));
+				res.setIspayment(rs.getString("ispayment"));
+				resList.add(res);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			disConnectDB();
+		 return resList;
 	}
 }

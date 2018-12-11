@@ -1,10 +1,5 @@
 package theater;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -15,12 +10,101 @@ import dao.ScreeningTableDAO;
 import dao.TheaterDAO;
 
 public class Reservation {
-	String id;						// 사용자 아이디
+	private int resNo;	
+	private String id;						// 사용자 아이디
+	private int payNo;
+	private int movieNo;
+	private int movieSchedule;
+	private String bookingTime;
+	private String bookingDay;
+	private int screenNum;
+	private int price;
+	private String ispayment;
 	
-
 	public Reservation(String id) {
+		this.setId(id);
+	}
+	
+	public int getResNo() {
+		return resNo;
+	}
+
+	public void setResNo(int resNo) {
+		this.resNo = resNo;
+	}
+
+	public int getPayNo() {
+		return payNo;
+	}
+
+	public void setPayNo(int payNo) {
+		this.payNo = payNo;
+	}
+
+	public int getMovieNo() {
+		return movieNo;
+	}
+
+	public void setMovieNo(int movieNo) {
+		this.movieNo = movieNo;
+	}
+
+	public int getMovieSchedule() {
+		return movieSchedule;
+	}
+
+	public void setMovieSchedule(int movieSchedule) {
+		this.movieSchedule = movieSchedule;
+	}
+
+	public String getBookingTime() {
+		return bookingTime;
+	}
+
+	public void setBookingTime(String bookingTime) {
+		this.bookingTime = bookingTime;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
 		this.id = id;
 	}
+
+	public int getScreenNum() {
+		return screenNum;
+	}
+
+	public void setScreenNum(int screenNum) {
+		this.screenNum = screenNum;
+	}
+
+	public String getBookingDay() {
+		return bookingDay;
+	}
+
+	public void setBookingDay(String bookingDay) {
+		this.bookingDay = bookingDay;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+	public String getIspayment() {
+		return ispayment;
+	}
+
+	public void setIspayment(String ispayment) {
+		this.ispayment = ispayment;
+	}
+	
 	
 	public void ReservationStart() {
 		   Print.printMessage("------------------ 영화예약관리 ------------------");
@@ -258,7 +342,6 @@ public class Reservation {
 	public List<Integer> selectSeat(int seat_count, int screeningtableNo){
 		
 	}
-	
 	
 	
 }
