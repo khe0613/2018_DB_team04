@@ -254,7 +254,7 @@ public class Reservation {
 		return screeningTableNo;
 	}
 	
-	// 예약할 티켓 수에 대한 좌석 선택하기
+	// 예약할 티켓 수에 대한 좌석 선택하기 (예약할 좌석 수 , 상영표 코드)를 인자로 받는다.
 	public List<Integer> selectSeat(int seat_count, int screeningtableNo){
 		
 	}
