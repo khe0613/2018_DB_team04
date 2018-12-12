@@ -1,5 +1,9 @@
 package theater;
 
+import java.util.ArrayList;
+
+import dao.ScheduleDAO;
+
 public class Schedule {
 
 	private int schNo;
@@ -36,5 +40,24 @@ public class Schedule {
 		this.screeningDate = screeningDate;
 	}
 	
-	
+	/* 저장된 일정 정보 목록 출력 */
+	public void getScheduleInfoList() {
+		ArrayList<Schedule> arrayList = new ArrayList<Schedule>();
+		arrayList = new ScheduleDAO().getScheduleInfoListSQL();
+		if(arrayList == null) {
+			Print.printMessage("아무 정보도 등록되지 않았습니다.");
+			Print.printMessage("-----------------------------------------------------");
+			return;
+		}
+		Print.printMessage("일정코드\t시작시간\t종료시간\t상영 날짜");
+		int i = 0;
+		while(i < arrayList.size()) {
+			Schedule temp = arrayList.get(i);
+			Print.printMessage(temp.getSchNo() + "\t" + temp.getStartTime() + "\t" + temp.getEndTime()+ "\t" +temp.getScreeningDate());
+			
+			i++;
+		}
+		Print.printMessage("총 " + (i) + "개의 일정 정보가 저장되어있습니다.");
+		Print.printMessage("-----------------------------------------------------");
+	}
 }

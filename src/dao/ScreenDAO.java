@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.util.ArrayList;
 
 import theater.Screen;
 
@@ -22,7 +22,7 @@ public class ScreenDAO {
 	
 	// DB 연결 connect
 	private void connectDB() {
-		this.jdbcUrl = "jdbc:mysql://localhost:3306/theater";
+		this.jdbcUrl = "jdbc:mysql://localhost:3306/theater?useSSL=false";
 		this.dbId = "parkyoonjung";
 		this.dbPass = "qkrdbswjd";
 		
@@ -146,4 +146,32 @@ public class ScreenDAO {
 		
 	}
 	
+	   /* 상영관 정보 목록 출력 */
+	   public ArrayList<Screen> getScreenInfo() {
+		  connectDB();
+		  ArrayList<Screen> arrayList = new ArrayList<>();
+	      try {
+	         String SQL = "SELECT * FROM screen";
+	         pstmt = conn.prepareStatement(SQL);
+	         ResultSet rs = pstmt.executeQuery();
+
+	         // 목록 꺼내오기
+	         while(rs.next()) {
+	            int rsScreenNO = rs.getInt("screenNo");
+	            int rsBranchNo = rs.getInt("branchNo");
+	            int rsTotalSeatNum = rs.getInt("totalSeatNum");
+
+	            Screen screen = new Screen();
+	            screen.setScreenNo(rsScreenNO);
+	            screen.setBranchNo(rsBranchNo);
+	            screen.setTotalseatNum(rsTotalSeatNum);
+	            arrayList.add(screen);
+	         }
+	      }catch(Exception e){
+	           e.printStackTrace();
+	      }
+	      disconnectDB();
+	      return arrayList;
+	   }
+	   
 }

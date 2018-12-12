@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import theater.MovieInfoSetting;
 import theater.TheaterInfo;
 
 public class TheaterInfoDAO {
@@ -19,7 +18,7 @@ public class TheaterInfoDAO {
    PreparedStatement pstmt;
    
    public TheaterInfoDAO() {
-      this.jdbcUrl = "jdbc:mysql://localhost:3306/theater";
+      this.jdbcUrl = "jdbc:mysql://localhost:3306/theater?useSSL=false";
       this.dbId = "parkyoonjung";
       this.dbPass = "qkrdbswjd";
       
@@ -114,8 +113,6 @@ public class TheaterInfoDAO {
       } catch (SQLException e) {
          not_error_flag = false;
       }
-      
-   
       
       if(not_error_flag) {
          System.out.println("영화관 삭제에 성공하였습니다.\n");

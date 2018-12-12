@@ -19,7 +19,7 @@ public class VIPDAO {
 	   PreparedStatement pstmt;
 	   
 	   public VIPDAO() {
-	      this.jdbcUrl = "jdbc:mysql://localhost:3306/theater";
+	      this.jdbcUrl = "jdbc:mysql://localhost:3306/theater?useSSL=false";
 	      this.dbId = "parkyoonjung";
 	      this.dbPass = "qkrdbswjd";
 	      

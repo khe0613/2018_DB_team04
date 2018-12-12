@@ -188,16 +188,16 @@ public class TheaterInfo {
          return;
       }
       
-      Print.printMessage("지점코드    상영관수   	  주소	     전화번호 	 지점명");
+      Print.printMessage("지점코드\t상영관수\t주소\t\t전화번호\t\t지점명");
       int i = 0;
       while(i < result.size()) {
          TheaterInfo temp = result.get(i);
-         Print.printMessage(temp.getBranchNo() + "   	" + temp.getScreenNum() + " 	  " + temp.getAddress()
-         + " 	   " + temp.getTel() + "		 " + temp.getBranchName());
+         Print.printMessage(temp.getBranchNo() + "\t" + temp.getScreenNum() + "\t" + temp.getAddress()
+         + "\t" + temp.getTel() + "\t" + temp.getBranchName());
          
          i++;
       }
-      Print.printMessage("총 " + i + "개의 영화 정보가 저장되어있습니다.");
+      Print.printMessage("총 " + i + "개의 영화관 정보가 저장되어있습니다.");
       Print.printMessage("-----------------------------------------------------");
    }
 }

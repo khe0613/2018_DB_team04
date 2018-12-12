@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 import theater.Schedule;
 
@@ -70,4 +69,34 @@ public class ScheduleDAO {
 		
 		return schedule;
 	}
+	
+	   /* 일정 정보 목록 출력 */
+	   public ArrayList<Schedule> getScheduleInfoListSQL() {
+		   connectDB();
+		   ArrayList<Schedule> arrayList = new ArrayList<>();
+	      try {
+	         String SQL = "SELECT * FROM schedule";
+	         pstmt = conn.prepareStatement(SQL);
+	         ResultSet rs = pstmt.executeQuery();
+
+	         // 목록 꺼내오기
+	         while(rs.next()) {
+	            int rsSchNo = rs.getInt("SchNo");
+	            String rsStartTime = rs.getString("startTime");
+	            String rsEndTime = rs.getString("endTime");
+	            String rsScreeningDate = rs.getString("ScreeningDate");
+	            
+	            Schedule schedule = new Schedule();
+	            schedule.setSchNo(rsSchNo);
+	            schedule.setStartTime(rsStartTime);
+	            schedule.setEndTime(rsEndTime);
+	            schedule.setScreeningDate(rsScreeningDate);
+	            arrayList.add(schedule);
+	         }
+	      }catch(Exception e){
+	           e.printStackTrace();
+	       }
+	      disConnectDB();
+	      return arrayList;
+	   }
 }

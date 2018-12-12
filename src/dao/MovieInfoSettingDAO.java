@@ -19,7 +19,7 @@ public class MovieInfoSettingDAO {
    PreparedStatement pstmt;
    
    public MovieInfoSettingDAO() {
-      this.jdbcUrl = "jdbc:mysql://localhost:3306/theater";
+      this.jdbcUrl = "jdbc:mysql://localhost:3306/theater?useSSL=false";
       this.dbId = "parkyoonjung";
       this.dbPass = "qkrdbswjd";
       
@@ -49,15 +49,7 @@ public class MovieInfoSettingDAO {
          pstmt.setString(6, rating);
          pstmt.setString(7, perforMername);
          pstmt.setString(8, genre);
-          int result = pstmt.executeUpdate(); // 성공 결과를 모르겠음
-          // 한 행만 영향을 받으므로?
-          /*
-          if(result == 1) {
-             Print.printMessage("result 1");
-             return true;
-          }
-          */
-        //  Print.printMessage("result " + result);
+         pstmt.executeUpdate(); 
           return true;
       }catch(Exception e) {
             e.printStackTrace();
@@ -87,15 +79,8 @@ public class MovieInfoSettingDAO {
          pstmt.setString(7, perforMername);
          pstmt.setString(8, genre);
          pstmt.setInt(9, movieNO);
-          int result = pstmt.executeUpdate(); // 성공 결과를 모르겠음
-          // 한 행만 영향을 받으므로?
-          /*
-          if(result == 1) {
-             Print.printMessage("result 1");
-             return true;
-          }
-          */
-          Print.printMessage("result " + result);
+         pstmt.executeUpdate(); // 성공 결과를 모르겠음
+         
           return true;
       }catch(Exception e) {
             e.printStackTrace();
@@ -114,17 +99,8 @@ public class MovieInfoSettingDAO {
                + " WHERE movieNO = ?";
          pstmt = conn.prepareStatement(SQL);
          pstmt.setInt(1, movieNO);
-          int result = pstmt.executeUpdate(); // 성공 결과를 모르겠음
-          
-          // 한 행만 영향을 받으므로?
-          /*
-          if(result == 1) {
-             Print.printMessage("result 1");
-             return true;
-          }
-          */
-          
-          Print.printMessage("result " + result);
+         pstmt.executeUpdate(); 
+
           return true;
       }catch(Exception e) {
             e.printStackTrace();

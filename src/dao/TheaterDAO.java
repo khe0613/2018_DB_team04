@@ -10,7 +10,7 @@ import java.util.List;
 
 // ¿µÈ­°ü DAO
 public class TheaterDAO {
-	String jdbcUrl = "jdbc:mysql://localhost:3306/theater";
+	String jdbcUrl = "jdbc:mysql://localhost:3306/theater?useSSL=false";
 	String dbId = "parkyoonjung";;
 	String dbPass = "qkrdbswjd";
 

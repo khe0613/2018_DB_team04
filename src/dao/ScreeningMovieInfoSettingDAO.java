@@ -5,8 +5,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
-import theater.Print;
+import theater.ScreeningMovieInfoSetting;
 
 public class ScreeningMovieInfoSettingDAO {
 	
@@ -79,4 +80,36 @@ public class ScreeningMovieInfoSettingDAO {
 		disconnectDB();
 		  return true;
 	}
+	
+	   /* 상영영화 정보 목록 출력 */
+	   public ArrayList<ScreeningMovieInfoSetting> getScreenInfo() {
+		  connectDB();
+		  ArrayList<ScreeningMovieInfoSetting> arrayList = new ArrayList<>();
+	      try {
+	         String SQL = "SELECT * FROM screeningtable";
+	         pstmt = conn.prepareStatement(SQL);
+	         ResultSet rs = pstmt.executeQuery();
+
+	         // 목록 꺼내오기
+	         while(rs.next()) {
+	            int rsScreentableNo = rs.getInt("screeningtableNo");
+	            int rsBranchNo = rs.getInt("movieBranchNo");
+	            int rsScreenNo = rs.getInt("screenNo");
+	            int rsMovieNo = rs.getInt("movieNo");
+	            int rsSchNo = rs.getInt("schNo");
+
+	            ScreeningMovieInfoSetting screeningmovieinfosetting  = new ScreeningMovieInfoSetting();
+	            screeningmovieinfosetting.setScreeningTableNo(rsScreentableNo);
+	            screeningmovieinfosetting.setMovieBranchNo(rsBranchNo);
+	            screeningmovieinfosetting.setScreenNo(rsScreenNo);
+	            screeningmovieinfosetting.setMovieNo(rsMovieNo);
+	            screeningmovieinfosetting.setSchNo(rsSchNo);
+	            arrayList.add(screeningmovieinfosetting);
+	         }
+	      }catch(Exception e){
+	           e.printStackTrace();
+	      }
+	      disconnectDB();
+	      return arrayList;
+	   }
 }
