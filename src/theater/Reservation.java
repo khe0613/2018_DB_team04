@@ -19,6 +19,7 @@ public class Reservation {
 	private int movieSchedule;
 	private String bookingTime;
 	private String bookingDay;
+	private int branchNo;
 	private int screenNum;
 	private int price;
 	private String ispayment;
@@ -35,6 +36,18 @@ public class Reservation {
 	public void setResNo(int resNo) {
 		this.resNo = resNo;
 	}
+	
+	
+
+	public int getBranchNo() {
+		return branchNo;
+	}
+
+
+	public void setBranchNo(int branchNo) {
+		this.branchNo = branchNo;
+	}
+
 
 	public int getPayNo() {
 		return payNo;
@@ -119,7 +132,6 @@ public class Reservation {
 		      
 		      // 영화 예약
 		      if(menu.equals("1")) {
-		    	  // 멤버 id 필요
 		    	  add();
 		      }
 		      
@@ -139,13 +151,13 @@ public class Reservation {
 		Scanner sc= new Scanner(System.in);
 		
 		System.out.println("예매하실 영화를 선택해주세요.");
-		int movieNo = selectMovie();
+		this.movieNo = selectMovie();
 		
 		System.out.println("영화관을 선택해주세요.");
-		int branchNo = selectTheater();
+		this.branchNo = selectTheater();
 		
 		// 선택한 영화관, 영화에 대한 일정 리스트 받아오기
-		List<Schedule> scheduleList = getScheduleList(movieNo, branchNo);
+		List<Schedule> scheduleList = getScheduleList();
 		
 		System.out.println("상영날짜를 선택해주세요.");
 		String screeningDate = selectDate(scheduleList);
@@ -158,21 +170,20 @@ public class Reservation {
 		
 		
 		System.out.println("상영관을 선택해주세요.");
-		int screenNo = selectScreen(movieNo, branchNo, schNo);
+		this.screenNum = selectScreen(schNo);
 		
 		// 선택한 영화, 영화관, 상영관, 상영 날짜, 상영 시간에 대한 상영표 코드 얻어오기
-		int screeningtableNo = getScreeningTableNo(branchNo, screenNo, movieNo, schNo);
+		this.movieSchedule = getScreeningTableNo(schNo);
 		
 		
-		System.out.println(screeningtableNo);
 		System.out.print("예약할 좌석 수를 입력해주세요 : ");
 		int seat_count = sc.nextInt();
 		
 		System.out.println("예약할 좌석을 선택해 주세요");
-		List<Integer> seat_list = selectSeat(seat_count, screeningtableNo, screenNo, branchNo);		//예약할 죄석 리스트
+		List<Integer> seat_list = selectSeat(seat_count);		//예약할 죄석 리스트
 		
 		
-		
+		System.out.println(seat_list);
 	}
 	
 	public void Reservationd(String id)  { // id를 인자로 받아옴
@@ -229,11 +240,11 @@ public class Reservation {
 	
 	
 	// 선택한 영화, 영화관에 대한 스케줄(일정) 리스트 반환
-	public List<Schedule> getScheduleList(int movieNo, int branchNo) { 
+	public List<Schedule> getScheduleList() { 
 		ScreeningTableDAO screeningTableDAO = new ScreeningTableDAO();
 		ScheduleDAO scheduleDAO = new ScheduleDAO();
 		
-		List<Integer> scheduleCodeList = screeningTableDAO.getScheduleCodeList(movieNo, branchNo);
+		List<Integer> scheduleCodeList = screeningTableDAO.getScheduleCodeList(this.movieNo, this.branchNo);
 		List<Schedule> scheduleList= new ArrayList<>();	// 스케줄  리스트
 		for(int schNo : scheduleCodeList) {
 			Schedule schedule = scheduleDAO.getScheduleList(schNo);
@@ -317,11 +328,11 @@ public class Reservation {
 	 }
 	
 	 // 선택한 영화, 영화관, 상영 날짜, 상영 시간에 대한 상영관 선택하기
-	public int selectScreen(int movieNo, int branchNo, int schNo) {
+	public int selectScreen(int schNo) {
 		System.out.println("-----------------선택한 지점,영화, 날짜, 시간에 대한 상영관---------------");
 		
 		ScreeningTableDAO screeningTableDAO = new ScreeningTableDAO();
-		List<Integer> screenList = screeningTableDAO.getScreenList(movieNo, branchNo, schNo);
+		List<Integer> screenList = screeningTableDAO.getScreenList(this.movieNo, this.branchNo, schNo);
 		
 		for(int i=0; i< screenList.size(); i++) {
 			System.out.print((i+1) +". 상영관 " +screenList.get(i) +"\t");
@@ -335,23 +346,23 @@ public class Reservation {
 	}
 	
 	// 선택한 영화, 영화관, 상영관, 상영 날짜, 상영 시간에 대한 상영표 코드 얻어오기
-	public int getScreeningTableNo(int branchNo, int screenNo, int movieNo, int schNo) {
+	public int getScreeningTableNo(int schNo) {
 		ScreeningTableDAO screeningTableDAO = new ScreeningTableDAO();
 		
-		int screeningTableNo = screeningTableDAO.getScreeningTableNo(branchNo, screenNo, movieNo, schNo);
+		int screeningTableNo = screeningTableDAO.getScreeningTableNo(this.branchNo, this.screenNum, this.movieNo, schNo);
 		
 		return screeningTableNo;
 	}
 	
 	
 	// 예약할 티켓 수에 대한 좌석 선택하기 (예약할 좌석 수 , 상영표 코드)를 인자로 받는다.
-	public List<Integer> selectSeat(int seat_count, int screeningtableNo, int screenNo, int branchNo){
+	public List<Integer> selectSeat(int seat_count){
 		OccupiedSeatDAO occupiedSeatDAO = new OccupiedSeatDAO();		
 		ScreenDAO screenDAO = new ScreenDAO();
 		
 		
-		List<Integer> seat_list = occupiedSeatDAO.getOccupiedSeatList(screeningtableNo);
-		int total_seat = screenDAO.getTotalSeat(screenNo, branchNo);
+		List<Integer> seat_list = occupiedSeatDAO.getOccupiedSeatList(this.movieSchedule);
+		int total_seat = screenDAO.getTotalSeat(this.screenNum, this.branchNo);
 		List<Integer> selected_seat_list = new ArrayList<>();
 		
 		System.out.println("-------------------좌석 현황-----------------");
