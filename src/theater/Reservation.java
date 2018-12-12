@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Scanner;
 
 import dao.MovieDAO;
+import dao.OccupiedSeatDAO;
 import dao.ScheduleDAO;
+import dao.ScreenDAO;
 import dao.ScreeningTableDAO;
 import dao.TheaterDAO;
 
@@ -22,8 +24,9 @@ public class Reservation {
 	private String ispayment;
 	
 	public Reservation(String id) {
-		this.setId(id);
+		this.id = id;
 	}
+	
 	
 	public int getResNo() {
 		return resNo;
@@ -166,7 +169,9 @@ public class Reservation {
 		int seat_count = sc.nextInt();
 		
 		System.out.println("예약할 좌석을 선택해 주세요");
-		//List<Integer> seat_list = 		//예약할 죄석 리스트
+		List<Integer> seat_list = selectSeat(seat_count, screeningtableNo, screenNo, branchNo);		//예약할 죄석 리스트
+		
+		
 		
 	}
 	
@@ -338,9 +343,41 @@ public class Reservation {
 		return screeningTableNo;
 	}
 	
+	
 	// 예약할 티켓 수에 대한 좌석 선택하기 (예약할 좌석 수 , 상영표 코드)를 인자로 받는다.
-	public List<Integer> selectSeat(int seat_count, int screeningtableNo){
+	public List<Integer> selectSeat(int seat_count, int screeningtableNo, int screenNo, int branchNo){
+		OccupiedSeatDAO occupiedSeatDAO = new OccupiedSeatDAO();		
+		ScreenDAO screenDAO = new ScreenDAO();
 		
+		
+		List<Integer> seat_list = occupiedSeatDAO.getOccupiedSeatList(screeningtableNo);
+		int total_seat = screenDAO.getTotalSeat(screenNo, branchNo);
+		List<Integer> selected_seat_list = new ArrayList<>();
+		
+		System.out.println("-------------------좌석 현황-----------------");
+		System.out.println("                   Screen                 ");
+		for(int seat = 1; seat <= total_seat; seat ++) {
+			
+			if(seat_list.contains(seat)) {
+				System.out.format("%4s", "-");
+			}else {
+				System.out.format("%4s", seat);
+			}
+			
+			
+			if(seat % 10 == 0) {			// 한줄에 10좌석
+				System.out.println();
+			}
+		}
+		
+		System.out.println();
+		
+		Scanner sc = new Scanner(System.in);
+		for(int i = 0; i < seat_count; i++) {
+			selected_seat_list.add(sc.nextInt());
+		}
+		
+		return selected_seat_list;
 	}
 	
 	

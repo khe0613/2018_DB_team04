@@ -125,4 +125,14 @@ public class ReservationDAO {
 			disConnectDB();
 		 return resList;
 	}
+	
+	
+	// 영화 예약을 실행한는 함수. 예약 내역에 예약정보를 추가한다.
+	public boolean doReservation(Reservation reservation) {
+		connectDB();
+		String sql = "INSERT INTO d";
+		disConnectDB();
+		
+		return true;
+	}
 }

@@ -117,4 +117,33 @@ public class ScreenDAO {
 		return true;
 	}
 	
+	// 특정 영화관, 상영관의 총 좌석수를 반환하는 함수
+	public int getTotalSeat(int screenNo, int branchNo) {
+		connectDB();
+		int total_seat = 0;
+		String sql = "SELECT totalSeatNum FROM screen WHERE"
+				+ "(screenNo = ?) AND (branchNo = ?)";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, screenNo);
+			pstmt.setInt(2, branchNo);
+			rs = pstmt.executeQuery();
+			
+			if(!rs.next()) {
+				return total_seat;
+			}
+			
+			total_seat = rs.getInt("totalSeatNum");
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		disconnectDB();
+		return total_seat;
+		
+		
+	}
+	
 }
