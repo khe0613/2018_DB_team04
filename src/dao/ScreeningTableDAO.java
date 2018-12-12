@@ -153,9 +153,13 @@ public class ScreeningTableDAO {
 	
 	// 상영표 번호에 대한 일정 코드 반환
 	public int getSchNo_about_screeningtableNo(int screeningtableNo) {
+		connectDB();
+		//String sql =  
 		
+		//disConnectDB();
 		return 3;
 	}
+	
 	
 	/* 상영 영화 정보 등록 */
 	public boolean addScreeningMovieInfoSQL(int movieBranchNo, int screenNo, int movieNo, int schNo) {

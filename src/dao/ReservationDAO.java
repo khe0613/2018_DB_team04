@@ -98,6 +98,7 @@ public class ReservationDAO {
 		return true;
 	}
 	
+	// 아이디에 대한 예매 내역 리스트 반환
 	public List<Reservation> getPaymentListOfID(String id){
 		 connectDB();
 		 String sql = "select * from reservation where memberId =?"; // 아이디로 예매내역 가져오기
@@ -185,30 +186,34 @@ public class ReservationDAO {
 		return true;
 	}
 	
-	public List<Reservation> getReservationHistory(String memberId){
+	
+	// 예약이 완료된 좌석들의 리스트를 반환
+	public List<Integer> getReservedSeatList(int screeningtableNo){
 		connectDB();
-		String sql ="SELECT * FROM reservation memberId = ?";
-		List<Reservation> reservationHistory = new ArrayList<>();
+		List<Integer> reserved_seat_list = new ArrayList<>();
+		String sql = "SELECT seatNo FROM reservation WHERE movieSchedule = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, memberId);
+			pstmt.setInt(1, screeningtableNo);
 			rs = pstmt.executeQuery();
-		
+			
 			if(!rs.next()) {
-				return reservationHistory;		// 예약 내역 없으면 빈 리스트 반환
+				return reserved_seat_list;
 			}
 			
 			do {
-				
+				reserved_seat_list.add(rs.getInt("seatNo"));
 			}while(rs.next());
+			
 		} catch (SQLException e) {
+			
 			e.printStackTrace();
 		}
 		
 		disConnectDB();
-		return reservationHistory;
+		return reserved_seat_list;
 	}
-	
+
 	
 }

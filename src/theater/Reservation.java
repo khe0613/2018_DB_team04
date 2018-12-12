@@ -8,7 +8,6 @@ import java.util.Locale;
 import java.util.Scanner;
 
 import dao.MovieDAO;
-import dao.OccupiedSeatDAO;
 import dao.ReservationDAO;
 import dao.ScheduleDAO;
 import dao.ScreenDAO;
@@ -353,11 +352,11 @@ public class Reservation {
 	
 	// 예약할 티켓 수에 대한 좌석 선택하기 (예약할 좌석 수 , 상영표 코드)를 인자로 받는다.
 	public List<Integer> selectSeat(int seat_count){
-		OccupiedSeatDAO occupiedSeatDAO = new OccupiedSeatDAO();		
+		ReservationDAO reservationDAO = new ReservationDAO();		
 		ScreenDAO screenDAO = new ScreenDAO();
 		
 		
-		List<Integer> seat_list = occupiedSeatDAO.getOccupiedSeatList(this.movieSchedule);
+		List<Integer> seat_list = reservationDAO.getReservedSeatList(this.movieSchedule);
 		int total_seat = screenDAO.getTotalSeat(this.screenNum, this.branchNo);
 		List<Integer> selected_seat_list = new ArrayList<>();
 		
@@ -409,7 +408,7 @@ public class Reservation {
 		this.ispayment = "false";
 		
 		ReservationDAO reservationDAO = new ReservationDAO();
-		OccupiedSeatDAO occupiedSeatDAO = new OccupiedSeatDAO();
+	
 		
 		int seat_count = 1;			// 한 회원이 한번에 여러장 예매했을 경우. 예매 번호 맨뒷자리로 이를 식별
 		for(int seat : seat_list) {
@@ -424,11 +423,7 @@ public class Reservation {
 				success = false;
 			}
 			
-			// 에약석 내역에 좌석 추가
-			if(!occupiedSeatDAO.add_occupied_seat(this.movieSchedule, this.seatNo, this.screenNum, this.branchNo)) {
-				success = false;
-			}
-			
+	
 			seat_count++;
 		}
 		
@@ -438,6 +433,8 @@ public class Reservation {
 	public void getReservationHisotry() {
 		ReservationDAO reservationDAO = new ReservationDAO();
 		ScheduleDAO scheduleDAO = new ScheduleDAO();
+		ScreeningTableDAO screeningTableDAO = new ScreeningTableDAO();
+		
 		List<Reservation> reservationHistory = reservationDAO.getPaymentListOfID(this.id);
 		
 		
@@ -448,6 +445,8 @@ public class Reservation {
 		System.out.println();
 		
 		for(Reservation reservation : reservationHistory) {
+			int schNo = screeningTableDAO.getSchNo_about_screeningtableNo(reservation.getMovieSchedule());	// 상영표 번호에 대한 일정 코드
+			Schedule schedule = scheduleDAO.getScheduleList(schNo);
 			
 			
 			System.out.format("%20s", reservation.getResNo()); System.out.format("%20s", "영화명"); 	System.out.format("%10s", "영화관명");   System.out.format("%10s", "상영관");
