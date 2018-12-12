@@ -168,7 +168,7 @@ public class Member {
       if(menu.equals("2")) {
          if(delete()) {
             Print.printMessage("!! È¸¿ø Å»Åð ¼º°ø");
-            Movie.setLogin(false);
+            MainClass.setLogin(false);
          }
          else {
             Print.printMessage("!! È¸¿ø Å»Åð ½ÇÆÐ");

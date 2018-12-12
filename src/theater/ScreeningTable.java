@@ -3,10 +3,11 @@ package theater;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import dao.ScreeningMovieInfoSettingDAO;
+import dao.ScreeningTableDAO;
+
 
 // 상영영화정보관리
-public class ScreeningMovieInfoSetting {
+public class ScreeningTable {
 	private Scanner sc = new Scanner(System.in);
 	String inputMenu = "";
 	private int screeningTableNo;
@@ -62,7 +63,7 @@ public class ScreeningMovieInfoSetting {
 			addScreeningMovieInfo();
 
 			// 성공
-			if (new ScreeningMovieInfoSettingDAO().addScreeningMovieInfoSQL(getMovieBranchNo(),getScreenNo(),getMovieNo(),getSchNo())) {
+			if (new ScreeningTableDAO().addScreeningMovieInfoSQL(getMovieBranchNo(),getScreenNo(),getMovieNo(),getSchNo())) {
 				Print.printMessage("!! 영화정보 등록 성공");
 			} else {
 				Print.printMessage("!! 영화정보 등록 실패");
@@ -71,7 +72,7 @@ public class ScreeningMovieInfoSetting {
 		case "2":
 			Print.printMessage("-> 상영영화정보 삭제");
 			deleteScreeningMovieInfo();
-			if (new ScreeningMovieInfoSettingDAO().deleteScreeningMovieInfoSQL(getMovieBranchNo(),getScreenNo(),getMovieNo(),getSchNo())) {
+			if (new ScreeningTableDAO().deleteScreeningMovieInfoSQL(getMovieBranchNo(),getScreenNo(),getMovieNo(),getSchNo())) {
 				Print.printMessage("!! 영화정보 삭제 성공");
 			} else {
 				Print.printMessage("!! 영화정보 삭제 실패");
@@ -87,7 +88,7 @@ public class ScreeningMovieInfoSetting {
 		Screen screen = new Screen();
 		Print.printMessage("-> 영화관&상영관 정보");
 		screen.getScreenInfoList(); // 상영관 정보 출력
-		MovieInfoSetting movie = new MovieInfoSetting();
+		Movie movie = new Movie();
 		Print.printMessage("-> 영화 정보");
 		movie.getMovieInfoList(); // 영화 정보 출력
 		Schedule schedule = new Schedule();
@@ -109,7 +110,7 @@ public class ScreeningMovieInfoSetting {
 		Screen screen = new Screen();
 		Print.printMessage("-> 영화관&상영관 정보");
 		screen.getScreenInfoList(); // 상영관 정보 출력
-		MovieInfoSetting movie = new MovieInfoSetting();
+		Movie movie = new Movie();
 		Print.printMessage("-> 영화 정보");
 		movie.getMovieInfoList(); // 영화 정보 출력
 		Schedule schedule = new Schedule();
@@ -127,9 +128,9 @@ public class ScreeningMovieInfoSetting {
 	
 	/* 저장된 상영 영화 정보 목록 출력 */
 	public void getScreeningMovieInfoList() {
-		ScreeningMovieInfoSettingDAO screeningmovieinfosettingdao = new ScreeningMovieInfoSettingDAO();
-		ArrayList<ScreeningMovieInfoSetting> arrayList = new ArrayList<ScreeningMovieInfoSetting>();
-		arrayList = screeningmovieinfosettingdao.getScreenInfo();
+		ScreeningTableDAO screeningTableDAO = new ScreeningTableDAO();
+		ArrayList<ScreeningTable> arrayList = new ArrayList<ScreeningTable>();
+		arrayList = screeningTableDAO.getScreenInfo();
 		if(arrayList == null) {
 			Print.printMessage("아무 정보도 등록되지 않았습니다.");
 			Print.printMessage("-----------------------------------------------------");
@@ -138,7 +139,7 @@ public class ScreeningMovieInfoSetting {
 		Print.printMessage("상영일정코드 지점코드\t상영관번호\t영화코드\t일정코드");
 		int i = 0;
 		while(i < arrayList.size()) {
-			ScreeningMovieInfoSetting temp = arrayList.get(i);
+			ScreeningTable temp = arrayList.get(i);
 			Print.printMessage(temp.getScreeningTableNo() + "\t " + temp.getMovieBranchNo() +"\t" + temp.getScreenNo()+"\t" +temp.getMovieNo()+"\t" +temp.getSchNo());
 			i++;
 		}

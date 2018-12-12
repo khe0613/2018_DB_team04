@@ -1,7 +1,7 @@
 package theater;
 
-import theater.Movie.AdminMenu;
-import theater.Movie.ClientMenu;
+import theater.MainClass.AdminMenu;
+import theater.MainClass.ClientMenu;
 
 public class Print {
 	public static void printMessage(String str) {

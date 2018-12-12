@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import theater.MovieInfoSetting;
+import theater.Movie;
 import theater.VIPSearch;
 
 public class VIPDAO {

@@ -3,7 +3,6 @@ package theater;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import dao.MovieInfoSettingDAO;
 import dao.ScreenDAO;
 
 // 상영관 관리
@@ -49,7 +48,7 @@ public class Screen {
 		int screenNo;
 		int totalSeatNum;
 		
-		TheaterInfo theater = new TheaterInfo();
+		Theater theater = new Theater();
 		Print.printMessage("---------------- 상 영 관 정 보 관 리 ----------------");
 		Print.printMessage("-> 원하시는 메뉴를 선택하세요.");
 		Print.printMessage("1: 상영관 등록    2: 상영관 수정   3: 상영관 삭제  4: 상영관 조회");

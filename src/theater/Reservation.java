@@ -141,7 +141,7 @@ public class Reservation {
 		      
 		      // 영화 예약내역 조회
 		      if(menu.equals("2")) {
-		    	  
+		    	  getReservationHisotry();	//예약 내역 조회
 		      }
 		      
 		      // 영화 예약 취소
@@ -433,6 +433,28 @@ public class Reservation {
 		}
 		
 		return success;
+	}
+	
+	public void getReservationHisotry() {
+		ReservationDAO reservationDAO = new ReservationDAO();
+		ScheduleDAO scheduleDAO = new ScheduleDAO();
+		List<Reservation> reservationHistory = reservationDAO.getPaymentListOfID(this.id);
+		
+		
+		System.out.println("---------------- 예약 내역 -------------------");
+		System.out.format("%20s", "예매 번호"); System.out.format("%20s", "영화명"); 	System.out.format("%10s", "영화관명");   System.out.format("%10s", "상영관");
+		System.out.format("%10s", "좌석번호");  System.out.format("%10s", "상영 일자"); System.out.format("%10s", "시작 시각"); 	System.out.format("%10s", "종료 시각");
+		System.out.format("%10s", "금액"); System.out.format("%10s", "결제 여부");
+		System.out.println();
+		
+		for(Reservation reservation : reservationHistory) {
+			
+			
+			System.out.format("%20s", reservation.getResNo()); System.out.format("%20s", "영화명"); 	System.out.format("%10s", "영화관명");   System.out.format("%10s", "상영관");
+			System.out.format("%10s", "좌석번호");  System.out.format("%10s", "상영 일자"); System.out.format("%10s", "시작 시각"); 	System.out.format("%10s", "종료 시각");
+			System.out.format("%10s", "금액"); System.out.format("%10s", "결제 여부");
+			System.out.println();
+		}
 	}
 	
 	

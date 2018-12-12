@@ -3,22 +3,23 @@ package theater;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import dao.TheaterInfoDAO;
+import dao.TheaterDAO;
+
 
 
 // 영화관정보관리
-public class TheaterInfo {
+public class Theater {
    private int branchNo;
    private int screenNum;
    private String address;
    private String tel;
    private String branchName;
    
-   public TheaterInfo() {
+   public Theater() {
       
    }
    
-   public TheaterInfo(int branchNo, int screenNum, String address, String tel, String branchName) {
+   public Theater(int branchNo, int screenNum, String address, String tel, String branchName) {
       this.branchNo = branchNo;
       this.screenNum = screenNum;
       this.address = address;
@@ -126,7 +127,7 @@ public class TheaterInfo {
       System.out.print("전화번호 : ");   this.tel = sc.next();
       System.out.print("지점명 : ");      this.branchName = sc.next();
       
-      if((this.branchNo = new TheaterInfoDAO().registerTheater(this)) != -1) {         // 영화관 등록 성공(지점코드가 리턴됨)
+      if((this.branchNo = new TheaterDAO().registerTheater(this)) != -1) {         // 영화관 등록 성공(지점코드가 리턴됨)
          return true;
       }else {
          return false;
@@ -156,7 +157,7 @@ public class TheaterInfo {
       System.out.print("지점명 : ");   
       String new_branchName = sc.next();
 
-      if(new TheaterInfoDAO().modifyTheaterInfo(branchNo, new_screenNum, new_address, new_tel, new_branchName)) {
+      if(new TheaterDAO().modifyTheaterInfo(branchNo, new_screenNum, new_address, new_tel, new_branchName)) {
     	 this.branchNo = branchNo;
          this.screenNum = new_screenNum;
          this.address = new_address;
@@ -175,12 +176,12 @@ public class TheaterInfo {
 	      Scanner sc = new Scanner(System.in);
 	      System.out.print("삭제할 지점코드 : ");   
 	      int remove_branchNo = sc.nextInt();
-	      return new TheaterInfoDAO().removeTheater(remove_branchNo);      // 성공할 경우 true, 실패할 경우 false가 리턴됨
+	      return new TheaterDAO().removeTheater(remove_branchNo);      // 성공할 경우 true, 실패할 경우 false가 리턴됨
 	   }
    
    public void theaterList() {
-      TheaterInfoDAO theaterInfoDAO = new TheaterInfoDAO();
-      ArrayList<TheaterInfo> result = theaterInfoDAO.getMovieInfoListSQL();
+	   TheaterDAO TheaterDAO = new TheaterDAO();
+      ArrayList<Theater> result = TheaterDAO.getMovieInfoListSQL();
       
       if(result == null) {
          Print.printMessage("!! 아무 정보도 등록되지 않았습니다.");
@@ -191,7 +192,7 @@ public class TheaterInfo {
       Print.printMessage("지점코드\t상영관수\t주소\t\t전화번호\t\t지점명");
       int i = 0;
       while(i < result.size()) {
-         TheaterInfo temp = result.get(i);
+         Theater temp = result.get(i);
          Print.printMessage(temp.getBranchNo() + "\t" + temp.getScreenNum() + "\t" + temp.getAddress()
          + "\t" + temp.getTel() + "\t" + temp.getBranchName());
          

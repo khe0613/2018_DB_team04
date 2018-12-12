@@ -184,4 +184,31 @@ public class ReservationDAO {
 		
 		return true;
 	}
+	
+	public List<Reservation> getReservationHistory(String memberId){
+		connectDB();
+		String sql ="SELECT * FROM reservation memberId = ?";
+		List<Reservation> reservationHistory = new ArrayList<>();
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, memberId);
+			rs = pstmt.executeQuery();
+		
+			if(!rs.next()) {
+				return reservationHistory;		// 예약 내역 없으면 빈 리스트 반환
+			}
+			
+			do {
+				
+			}while(rs.next());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		disConnectDB();
+		return reservationHistory;
+	}
+	
+	
 }
