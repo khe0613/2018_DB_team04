@@ -14,7 +14,6 @@ public class OccupiedSeatDAO {
 	String dbId = "parkyoonjung";;
 	String dbPass = "qkrdbswjd";
 
-	HashMap<Integer,Integer> chart;
 	Connection conn;
 	PreparedStatement pstmt;
 	ResultSet rs;

@@ -158,23 +158,23 @@ public class ReservationDAO {
 	// 영화 예약을 실행한는 함수. 예약 내역에 예약정보를 추가한다.
 	public boolean doReservation(Reservation reservation) {
 		connectDB();
-		String sql = "INSERT INTO reservation(resNo, memberId, payNo, seatNo, movieNo, movieSchedule, "
+		String sql = "INSERT INTO reservation(resNo, memberId,  seatNo, movieNo, movieSchedule, "
 				 + "bookingTime, bookingDay, branchNo, screenNum, price, ispayment)"
-				 +  "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				 +  "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		boolean success = true;
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, reservation.getResNo());
 			pstmt.setString(2, reservation.getId());
-			pstmt.setInt(4, reservation.getSeatNo());
-			pstmt.setInt(5, reservation.getMovieNo());
-			pstmt.setInt(6, reservation.getMovieSchedule());
-			pstmt.setString(7, reservation.getBookingTime());
-			pstmt.setString(8, reservation.getBookingDay());
-			pstmt.setInt(9, reservation.getBranchNo());
-			pstmt.setInt(10, reservation.getScreenNum());
-			pstmt.setInt(11, reservation.getPrice());
-			pstmt.setString(12, reservation.getIspayment());
+			pstmt.setInt(3, reservation.getSeatNo());
+			pstmt.setInt(4, reservation.getMovieNo());
+			pstmt.setInt(5, reservation.getMovieSchedule());
+			pstmt.setString(6, reservation.getBookingTime());
+			pstmt.setString(7, reservation.getBookingDay());
+			pstmt.setInt(8, reservation.getBranchNo());
+			pstmt.setInt(9, reservation.getScreenNum());
+			pstmt.setInt(10, reservation.getPrice());
+			pstmt.setString(11, reservation.getIspayment());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			success = false;

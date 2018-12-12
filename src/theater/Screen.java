@@ -3,6 +3,7 @@ package theater;
 import java.util.Scanner;
 
 import dao.ScreenDAO;
+import dao.SeatDAO;
 
 // 상영관 관리
 public class Screen {
@@ -90,19 +91,33 @@ public class Screen {
 	// 상영관 등록
 	public boolean registerScreen(int branchNo, int totalSeatNum) {
 		ScreenDAO screenDAO = new ScreenDAO();
+		SeatDAO seatDAO = new SeatDAO();		// 좌석도 totalSeatNum 만큼 추가되어야 함
 		
 		System.out.println("---------------- 상영관 등록 ----------------");
 		this.setScreenNo(screenDAO.getScreenNum(branchNo)+1); // dao에서  함수 호출하여 불러온거에 +1해준 것
 		this.setBranchNo(branchNo);
 		this.setTotalseatNum(totalSeatNum);
 		
+		boolean success = true;
+		
 		if(screenDAO.registerScreen(this)) {
-			System.out.println("상영관 등록에 성공하셨습니다.");
-			return true;
+			for(int seat = 1; seat <= totalSeatNum; seat++) {
+				if(!seatDAO.addSeat(seat, this.screenNo, this.branchNo)) {
+					success = false;
+				}
+			}
+			
 		}else {
-			System.out.println("상영관 등록에 실패하셨습니다.");
-			return false;
+			success = false;
 		}
+		
+		
+		if(success) {
+			System.out.println("상영관 등록에 성공하였습니다.");
+		}else {
+			System.out.println("상영관 등록에 실패하였씁니다.");
+		}
+		return success;
 	}
 	
 	// 상영관 삭제
