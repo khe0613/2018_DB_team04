@@ -1,20 +1,24 @@
 package theater;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 import dao.MovieDAO;
 import dao.OccupiedSeatDAO;
+import dao.ReservationDAO;
 import dao.ScheduleDAO;
 import dao.ScreenDAO;
 import dao.ScreeningTableDAO;
 import dao.TheaterDAO;
 
 public class Reservation {
-	private int resNo;	
+	private String resNo;	
 	private String id;						// 사용자 아이디
-	private int payNo;
+	private int seatNo;
 	private int movieNo;
 	private int movieSchedule;
 	private String bookingTime;
@@ -26,36 +30,35 @@ public class Reservation {
 	
 	public Reservation(String id) {
 		this.id = id;
+		this.price = 11000;
 	}
 	
-	
-	public int getResNo() {
+	public String getResNo() {
 		return resNo;
 	}
 
-	public void setResNo(int resNo) {
+	public void setResNo(String resNo) {
 		this.resNo = resNo;
 	}
-	
-	
 
-	public int getBranchNo() {
-		return branchNo;
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 
-	public void setBranchNo(int branchNo) {
-		this.branchNo = branchNo;
+	public int getSeatNo() {
+		return seatNo;
 	}
 
 
-	public int getPayNo() {
-		return payNo;
+	public void setSeatNo(int seatNo) {
+		this.seatNo = seatNo;
 	}
 
-	public void setPayNo(int payNo) {
-		this.payNo = payNo;
-	}
 
 	public int getMovieNo() {
 		return movieNo;
@@ -72,7 +75,7 @@ public class Reservation {
 	public void setMovieSchedule(int movieSchedule) {
 		this.movieSchedule = movieSchedule;
 	}
-
+	
 	public String getBookingTime() {
 		return bookingTime;
 	}
@@ -81,12 +84,21 @@ public class Reservation {
 		this.bookingTime = bookingTime;
 	}
 
-	public String getId() {
-		return id;
+
+	public String getBookingDay() {
+		return bookingDay;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setBookingDay(String bookingDay) {
+		this.bookingDay = bookingDay;
+	}
+
+	public int getBranchNo() {
+		return branchNo;
+	}
+
+	public void setBranchNo(int branchNo) {
+		this.branchNo = branchNo;
 	}
 
 	public int getScreenNum() {
@@ -95,14 +107,6 @@ public class Reservation {
 
 	public void setScreenNum(int screenNum) {
 		this.screenNum = screenNum;
-	}
-
-	public String getBookingDay() {
-		return bookingDay;
-	}
-
-	public void setBookingDay(String bookingDay) {
-		this.bookingDay = bookingDay;
 	}
 
 	public int getPrice() {
@@ -120,8 +124,8 @@ public class Reservation {
 	public void setIspayment(String ispayment) {
 		this.ispayment = ispayment;
 	}
-	
-	
+
+
 	public void ReservationStart() {
 		   Print.printMessage("------------------ 영화예약관리 ------------------");
 		      Print.printMessage("-> 원하시는 메뉴를 선택하세요.");
@@ -158,7 +162,7 @@ public class Reservation {
 		
 		// 선택한 영화관, 영화에 대한 일정 리스트 받아오기
 		List<Schedule> scheduleList = getScheduleList();
-		
+	
 		System.out.println("상영날짜를 선택해주세요.");
 		String screeningDate = selectDate(scheduleList);
 		
@@ -182,27 +186,19 @@ public class Reservation {
 		System.out.println("예약할 좌석을 선택해 주세요");
 		List<Integer> seat_list = selectSeat(seat_count);		//예약할 죄석 리스트
 		
-		
-		System.out.println(seat_list);
-	}
-	
-	public void Reservationd(String id)  { // id를 인자로 받아옴
-		
-		/*
+		System.out.println("총 결제 금액은 " + String.format("%,d", (this.price * seat_count)) +"원 입니다");
 	
 		
-		System.out.println("상영관을 선택해주세요.");
-		int screenNum = selectScreen();
-		System.out.println("시간을 선택해주세요.");
-		selectTime();
-		System.out.println("몇장을 예매하시겠습니까?");
-		int num = sc.nextInt();
-		int price = num * 10000;
-		System.out.println("좌석을 선택해주세요.");
-		String seatNo = selectSeat(num);
-		*/
+		
+		if(!doReservation(seat_list)) {
+			System.out.println("예약에 실패하였습니다.");
+		}else {
+			System.out.println("예약에 성공하였습니다.");
+		}
 		
 	}
+	
+
 	
 	// 영화 선택, 영화 번호 리턴
 	public int selectMovie() { 
@@ -381,6 +377,9 @@ public class Reservation {
 			}
 		}
 		
+		if( (total_seat % 10) != 0) {
+			System.out.println();
+		}
 		System.out.println();
 		
 		Scanner sc = new Scanner(System.in);
@@ -389,6 +388,51 @@ public class Reservation {
 		}
 		
 		return selected_seat_list;
+	}
+	
+	public int selectPaymentMethod(){
+	
+		return 0;
+	}	
+	
+	
+	public boolean doReservation(List<Integer> seat_list) {
+		boolean success = true;
+		
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-kk-mm-ss", Locale.KOREA);
+		Date date = new Date();
+		String time = simpleDateFormat.format(date);
+		
+
+		this.bookingTime = time.split("-")[3] + ":" + time.split("-")[4] + ":" + time.split("-")[5];
+		this.bookingDay = time.split("-")[0] + "-" + time.split("-")[1] + "-" + time.split("-")[2];
+		this.ispayment = "false";
+		
+		ReservationDAO reservationDAO = new ReservationDAO();
+		OccupiedSeatDAO occupiedSeatDAO = new OccupiedSeatDAO();
+		
+		int seat_count = 1;			// 한 회원이 한번에 여러장 예매했을 경우. 예매 번호 맨뒷자리로 이를 식별
+		for(int seat : seat_list) {
+			// "년월일-예약번호-회원이 여러장 예매했을때 구분하는 숫자"
+			this.resNo = time.split("-")[0] + time.split("-")[1] + time.split("-")[2]
+							+ "-" +(reservationDAO.getFinalResNo() + 1)
+							+ "-" + seat_count;
+			this.seatNo = seat;
+			
+			// 예약
+			if(!reservationDAO.doReservation(this)) {
+				success = false;
+			}
+			
+			// 에약석 내역에 좌석 추가
+			if(!occupiedSeatDAO.add_occupied_seat(this.movieSchedule, this.seatNo, this.screenNum, this.branchNo)) {
+				success = false;
+			}
+			
+			seat_count++;
+		}
+		
+		return success;
 	}
 	
 	

@@ -63,4 +63,31 @@ public class OccupiedSeatDAO {
 		disConnectDB();
 		return occupied_seat_list;
 	}
+	
+	
+	// 예약된 좌석 내역에 좌석을 추가
+	public boolean add_occupied_seat(int screeningtableNo, int seatNo, int screenNo, int branchNo) {
+		connectDB();
+		String sql = "INSERT INTO occupiedseat (screeningtableNo, seatNo, screenNo, branchNo) "
+						+ "VALUES(?, ?, ?, ?)";
+		boolean success = true;
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, screeningtableNo);
+			pstmt.setInt(2, seatNo);
+			pstmt.setInt(3, screenNo);
+			pstmt.setInt(4, branchNo);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			success = false;
+			e.printStackTrace();
+		}
+		
+		
+		disConnectDB();
+		return success;
+		
+	}
+	
 }

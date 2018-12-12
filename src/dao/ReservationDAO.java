@@ -108,7 +108,7 @@ public class ReservationDAO {
 				rs = pstmt.executeQuery();
 				while(rs.next()) {
 				Reservation res = new Reservation(id);
-				res.setResNo(rs.getInt("resNo"));
+				res.setResNo(rs.getString("resNo"));
 				res.setPayNo(rs.getInt("payNo"));
 				res.setMovieNo(rs.getInt("movieNo"));
 				res.setMovieSchedule(rs.getInt("movieSchedule"));
@@ -127,10 +127,61 @@ public class ReservationDAO {
 	}
 	
 	
+	
+	// 예매 내역 테이블을 확인해서 마지막 예매 번호를 반환하는 함수 (년월일-예매번호-예매장수)
+	public int getFinalResNo() {
+		connectDB();
+		String sql ="SELECT substring_index(resNo, '-', 2) FROM reservation order by substring_index(resNo, '-', 2) desc";
+		int final_resNo = 0;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(!rs.next()) {
+				return 0;
+			}
+			
+			final_resNo = Integer.parseInt(rs.getString(1));
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+				
+		
+		disConnectDB();
+		
+		return final_resNo;
+	
+	}
+	
+	
 	// 영화 예약을 실행한는 함수. 예약 내역에 예약정보를 추가한다.
 	public boolean doReservation(Reservation reservation) {
 		connectDB();
-		String sql = "INSERT INTO d";
+		String sql = "INSERT INTO reservation(resNo, memberId, payNo, seatNo, movieNo, movieSchedule, "
+				 + "bookingTime, bookingDay, branchNo, screenNum, price, ispayment)"
+				 +  "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		boolean success = true;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, reservation.getResNo());
+			pstmt.setString(2, reservation.getId());
+			pstmt.setInt(3, reservation.getPayNo());
+			pstmt.setInt(4, reservation.getSeatNo());
+			pstmt.setInt(5, reservation.getMovieNo());
+			pstmt.setInt(6, reservation.getMovieSchedule());
+			pstmt.setString(7, reservation.getBookingTime());
+			pstmt.setString(8, reservation.getBookingDay());
+			pstmt.setInt(9, reservation.getBranchNo());
+			pstmt.setInt(10, reservation.getScreenNum());
+			pstmt.setInt(11, reservation.getPrice());
+			pstmt.setString(12, reservation.getIspayment());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			success = false;
+			e.printStackTrace();
+		}
 		disConnectDB();
 		
 		return true;
