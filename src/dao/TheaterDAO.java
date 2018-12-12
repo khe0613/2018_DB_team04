@@ -171,6 +171,29 @@ public class TheaterDAO {
 	   }
 	   
 	   
+	   // 영화관 지점코드에 대한 지점명을 반환하는 함수(){
+	  public String getBranchName(int branchNo) {
+		  connectDB();
+		  String sql = "SELECT branchName FROM theater WHERE branchNo = ?";
+		  String branch_name = null;
+		  
+		  try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, branchNo);
+			rs = pstmt.executeQuery();
+			if(!rs.next()) {
+				return null;
+			}
+			
+			branch_name = rs.getString("branchName");
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		  
+		  disConnectDB();
+		  return branch_name;
+	  }
 	   
 	   
 	   

@@ -154,10 +154,26 @@ public class ScreeningTableDAO {
 	// 상영표 번호에 대한 일정 코드 반환
 	public int getSchNo_about_screeningtableNo(int screeningtableNo) {
 		connectDB();
-		//String sql =  
+		int schNo = 0;
+		String sql = "SELECT schNo FROM screeningtable WHERE screeningtableNo = ?";
 		
-		//disConnectDB();
-		return 3;
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, screeningtableNo);
+			rs = pstmt.executeQuery();
+			if(!rs.next()) {
+				return -1;
+			}
+			
+			schNo = rs.getInt("schNo");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		disConnectDB();
+		return schNo;
 	}
 	
 	

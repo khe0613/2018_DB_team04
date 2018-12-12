@@ -145,6 +145,7 @@ public class Reservation {
 		      
 		      // 영화 예약 취소
 		      if(menu.equals("3")) {
+		    	  cancelReservation();
 		    	  
 		      }
 		            
@@ -410,11 +411,12 @@ public class Reservation {
 		ReservationDAO reservationDAO = new ReservationDAO();
 	
 		
+		int reservation_count = reservationDAO.getFinalResNo() + 1;					// 예매 번호에서 가운데 위치하는 부분. 
 		int seat_count = 1;			// 한 회원이 한번에 여러장 예매했을 경우. 예매 번호 맨뒷자리로 이를 식별
 		for(int seat : seat_list) {
 			// "년월일-예약번호-회원이 여러장 예매했을때 구분하는 숫자"
 			this.resNo = time.split("-")[0] + time.split("-")[1] + time.split("-")[2]
-							+ "-" +(reservationDAO.getFinalResNo() + 1)
+							+ "-" + reservation_count
 							+ "-" + seat_count;
 			this.seatNo = seat;
 			
@@ -434,6 +436,8 @@ public class Reservation {
 		ReservationDAO reservationDAO = new ReservationDAO();
 		ScheduleDAO scheduleDAO = new ScheduleDAO();
 		ScreeningTableDAO screeningTableDAO = new ScreeningTableDAO();
+		MovieDAO movieDAO = new MovieDAO();
+		TheaterDAO theaterDAO = new TheaterDAO();
 		
 		List<Reservation> reservationHistory = reservationDAO.getPaymentListOfID(this.id);
 		
@@ -449,12 +453,20 @@ public class Reservation {
 			Schedule schedule = scheduleDAO.getScheduleList(schNo);
 			
 			
-			System.out.format("%20s", reservation.getResNo()); System.out.format("%20s", "영화명"); 	System.out.format("%10s", "영화관명");   System.out.format("%10s", "상영관");
-			System.out.format("%10s", "좌석번호");  System.out.format("%10s", "상영 일자"); System.out.format("%10s", "시작 시각"); 	System.out.format("%10s", "종료 시각");
-			System.out.format("%10s", "금액"); System.out.format("%10s", "결제 여부");
+			System.out.format("%20s", reservation.getResNo()); System.out.format("%20s", movieDAO.getMovieName(reservation.getMovieNo())); 	
+			System.out.format("%10s", theaterDAO.getBranchName(reservation.getBranchNo())); System.out.format("%10s", reservation.getScreenNum());
+			System.out.format("%10s", reservation.getSeatNo()); System.out.format("%10s", schedule.getScreeningDate()); 
+			System.out.format("%10s", schedule.getStartTime()); System.out.format("%10s", schedule.getEndTime());
+			System.out.format("%10s", reservation.getPrice()); System.out.format("%10s", reservation.getIspayment());
 			System.out.println();
 		}
+		
+		System.out.println();
 	}
 	
+	// 예매 취소
+	public void cancelReservation() {
+		
+	}
 	
 }

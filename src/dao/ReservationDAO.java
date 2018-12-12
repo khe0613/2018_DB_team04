@@ -1,5 +1,6 @@
 package dao;
 
+import java.security.GeneralSecurityException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -110,10 +111,13 @@ public class ReservationDAO {
 				while(rs.next()) {
 				Reservation res = new Reservation(id);
 				res.setResNo(rs.getString("resNo"));
+				res.setId(rs.getString("memberId"));
+				res.setSeatNo(rs.getInt("seatNo"));
 				res.setMovieNo(rs.getInt("movieNo"));
 				res.setMovieSchedule(rs.getInt("movieSchedule"));
 				res.setBookingTime(rs.getString("bookingTime"));
 				res.setBookingDay(rs.getString("bookingDay"));
+				res.setBranchNo(rs.getInt("branchNo"));
 				res.setScreenNum(rs.getInt("screenNum"));
 				res.setPrice(rs.getInt("price"));
 				res.setIspayment(rs.getString("ispayment"));
@@ -131,7 +135,8 @@ public class ReservationDAO {
 	// 예매 내역 테이블을 확인해서 마지막 예매 번호를 반환하는 함수 (년월일-예매번호-예매장수)
 	public int getFinalResNo() {
 		connectDB();
-		String sql ="SELECT substring_index(resNo, '-', 2) FROM reservation order by substring_index(resNo, '-', 2) desc";
+		String sql ="SELECT substring_index(substring_index(resNo, '-', 2), '-', -1) FROM reservation "
+				+ "order by substring_index(substring_index(resNo, '-', 2), '-', -1) desc";
 		int final_resNo = 0;
 		try {
 			pstmt = conn.prepareStatement(sql);
