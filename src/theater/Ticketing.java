@@ -3,8 +3,6 @@ package theater;
 import java.util.List;
 import java.util.Scanner;
 
-import dao.MovieInfoSettingDAO;
-import dao.PaymentDAO;
 import dao.ReservationDAO;
 
 public class Ticketing {
@@ -33,8 +31,8 @@ public class Ticketing {
 			// 해당 아이디에 대한 예매 내역 전부 출력
 			resList = reservationdao.getPaymentListOfID(id);
 			for(Reservation res : resList) {
-				Print.printMessage("resNo	memberId	payNo		movieNo		movieSchedule	bookingTime	bookingDay	screenNum	price	ispayment");
-				Print.printMessage(res.getResNo()+"	"+res.getId()+"		"+res.getPayNo()+"		"+res.getMovieNo()+"		"+res.getMovieSchedule()
+				Print.printMessage("resNo	memberId	  movieNo		movieSchedule	bookingTime	bookingDay	screenNum	price	ispayment");
+				Print.printMessage(res.getResNo()+"	"+res.getId()+"		"+res.getMovieNo()+"		"+res.getMovieSchedule()
 				+"		"+res.getBookingTime()+"		"+res.getBookingDay()+"		"+res.getScreenNum()+"		"+res.getPrice()+"	"+res.getIspayment());
 			}
 			Print.printMessage("-> 티켓을 받으려는 예매번호를 입력해주세요.");
@@ -51,22 +49,22 @@ public class Ticketing {
 			}
 			break;
 		case "2":
-			PaymentDAO paymentdao = new PaymentDAO();
+			payment payment = new payment();
 			Print.printMessage("-> 현장 결제 후 티켓 발행");
 			Print.printMessage("-> 티켓을 결제하려는 ID를 입력하세요.");
 			id = sc.next();
 			// 해당 아이디에 대한 예매 내역 전부 출력
 			resList = reservationdao.getPaymentListOfID(id);
 			for(Reservation res : resList) {
-				Print.printMessage("resNo	memberId	payNo		movieNo		movieSchedule	bookingTime	bookingDay	screenNum	price	ispayment");
-				Print.printMessage(res.getResNo()+"	"+res.getId()+"		"+res.getPayNo()+"		"+res.getMovieNo()+"		"+res.getMovieSchedule()
+				Print.printMessage("resNo	memberId	movieNo		movieSchedule	bookingTime	bookingDay	screenNum	price	ispayment");
+				Print.printMessage(res.getResNo()+"	"+res.getId()+"		"+res.getMovieNo()+"		"+res.getMovieSchedule()
 				+"		"+res.getBookingTime()+"		"+res.getBookingDay()+"		"+res.getScreenNum()+"		"+res.getPrice()+"	"+res.getIspayment());
 			}
 			Print.printMessage("-> 티켓을 결제하려는 예매번호를 입력해주세요.");
 			resNo = sc.next();
 			isPayment = reservationdao.isPayment(resNo);
 			if(isPayment.equals("false")) {
-				if(paymentdao.onSitePayment(id, resNo)) {
+				if(payment.onSitePayment(id, resNo)) {
 					reservationdao.EndPayment(resNo); // true로 변경
 					Print.printMessage("!! 현장 결제 성공");
 					Print.printMessage("--------------- 영 화 티 켓 발 행 ---------------");

@@ -109,7 +109,6 @@ public class ReservationDAO {
 				while(rs.next()) {
 				Reservation res = new Reservation(id);
 				res.setResNo(rs.getString("resNo"));
-				res.setPayNo(rs.getInt("payNo"));
 				res.setMovieNo(rs.getInt("movieNo"));
 				res.setMovieSchedule(rs.getInt("movieSchedule"));
 				res.setBookingTime(rs.getString("bookingTime"));
@@ -167,7 +166,6 @@ public class ReservationDAO {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, reservation.getResNo());
 			pstmt.setString(2, reservation.getId());
-			pstmt.setInt(3, reservation.getPayNo());
 			pstmt.setInt(4, reservation.getSeatNo());
 			pstmt.setInt(5, reservation.getMovieNo());
 			pstmt.setInt(6, reservation.getMovieSchedule());

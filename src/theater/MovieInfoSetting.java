@@ -129,11 +129,11 @@ public class MovieInfoSetting {
 			Print.printMessage("-----------------------------------------------------");
 			return;
 		}
-		Print.printMessage("영화코드	영화명	감독명	영화주요정보	상영시간	개봉일	상영등급	출연자명	장르명");
+		Print.printMessage("영화코드	영화명		감독명		영화주요정보		상영시간	개봉일	상영등급	출연자명		장르명");
 		int i = 0;
 		while(i < arrayList.size()) {
 			MovieInfoSetting temp = arrayList.get(i);
-			Print.printMessage(temp.getMovieNO() + "	" + temp.getMovieName() + "	" + temp.getDirectorName()
+			Print.printMessage(temp.getMovieNO() + "	" + temp.getMovieName() + "		" + temp.getDirectorName()
 			+ "	" + temp.getSummary() + "	" + temp.getShowTime() + "	" + temp.getReleaseDate()
 			+ "	" + temp.getRating() + "	" + temp.getPerforMername() + "	" + temp.getGenre());
 			
