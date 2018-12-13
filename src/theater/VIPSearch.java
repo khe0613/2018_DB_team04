@@ -57,19 +57,10 @@ public class VIPSearch {
 		Print.printMessage("-> 검색하려는 기간의 시작 날짜를 입력하세요.");
 		Scanner sc = new Scanner(System.in);
 		String startTime = sc.next();
-		// 문자가 포함되는 예외처리
-		if(!(isNumber(startTime)) || !(isLength(startTime))) {
-			start();
-			return;
-		}
+
 		Print.printMessage("-> 검색하려는 기간의 종료 날짜를 입력하세요.");
 		String endTime = sc.next();
-		// 문자가 포함되는 예외처리
-		if(!(isNumber(endTime)) || !(isLength(endTime))) {
-			start();
-			return;
-		}
-		
+
 		VIPDAO vipdao = new VIPDAO();
 		ArrayList<VIPSearch> result = vipdao.getReservationList(startTime, endTime); // 예약 테이블에 저장된 정보 가져오기
 		if(result != null) {
