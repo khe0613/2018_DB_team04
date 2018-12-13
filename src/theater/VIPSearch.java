@@ -92,7 +92,7 @@ public class VIPSearch {
 		Iterator<String> keys = keySet.iterator(); // 이터레이터 사용
 		
 		for(int i = 1; i <= count; i++) {
-			String key = keys.next();
+			String key = keys.next();	
 			Print.printMessage("등수	아이디	예약횟수");
 			Print.printMessage(i+"등	" + key + "	" + hashmap.get(key));
 		}
