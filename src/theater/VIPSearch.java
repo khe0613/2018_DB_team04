@@ -73,9 +73,20 @@ public class VIPSearch {
 		Print.printMessage("-> DB 접속 완료! 결과를 출력합니다.");
 		hashmap = vipSortByID(arrayList);
 		List<String> keySet = SearchMovie.sortByValue(hashmap);
-		Print.printMessage("-> 결과를 몇 등 까지 표시합니까 ?");
+		
 		Scanner sc = new Scanner(System.in);
-		int count = sc.nextInt();
+		int count = 0;
+		while(true) {
+			Print.printMessage("-> 결과를 몇 등 까지 표시합니까 ?(최대 10등)");
+			count = sc.nextInt();
+			if(count > 10 ) {
+				System.out.println("최대 10등까지 확인 가능합니다. VIP는 예매 횟수 top10 고객을 의미합니다.");
+			}else {
+				break;
+			}
+		}
+		
+		
 		// 사용자가 입력한 등수가 총 등수보다 큰 값을 가지는 경우
 		if(count == 0) {
 			Print.printMessage("아무 정보도 등록되지 않았습니다.");
