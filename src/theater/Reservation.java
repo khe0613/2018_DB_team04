@@ -466,6 +466,20 @@ public class Reservation {
 	
 	// 예매 취소
 	public void cancelReservation() {
+		ReservationDAO reservationDAO = new ReservationDAO();
+		getReservationHisotry();
+		
+		System.out.println("취소할 예매의 예매 번호를 입력하세요");
+		Scanner sc = new Scanner(System.in);
+		String resNo  = sc.next();
+		
+		if(reservationDAO.cancelReservation(resNo)) {
+			System.out.println("예매 취소가 완료되었습니다.");
+		}else {
+			System.out.println("예매 취소에 실패하였습니다.");
+		}
+		
+		
 		
 	}
 	

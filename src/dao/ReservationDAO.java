@@ -219,6 +219,26 @@ public class ReservationDAO {
 		disConnectDB();
 		return reserved_seat_list;
 	}
+	
+	
+	public boolean cancelReservation(String resNo) {
+		connectDB();
+		String sql = "DELETE FROM reservation WHERE resNo = ?";
+		boolean success = true;
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, resNo);
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			success = false;
+			e.printStackTrace();
+		}
+	
+		disConnectDB();
+		return success;
+	}
 
 	
 }
